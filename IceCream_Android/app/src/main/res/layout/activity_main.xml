@@ -1,18 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- Заголовок "RabbIce" по центру з більшим розміром і зсувом вниз -->
     <TextView
+        android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="RabbIce"
+        android:textSize="100sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="250dp" />
+
+    <!-- Випадаючий список (Dropdown) -->
+    <AutoCompleteTextView
+        android:id="@+id/spinner_user_role"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Оберіть роль"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/title_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="256dp"
+        android:layout_marginEnd="256dp"
+        android:layout_marginTop="200dp" />
+
+    <!-- Поле для введення імені -->
+    <EditText
+        android:id="@+id/editText_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Ім'я"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/spinner_user_role"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="256dp"
+        android:layout_marginEnd="256dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Поле для введення пароля -->
+    <EditText
+        android:id="@+id/editText_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Пароль"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/editText_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="256dp"
+        android:layout_marginEnd="256dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Кнопка входу -->
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Увійти"
+        android:textSize="25sp"
+        android:paddingVertical="10dp"
+        app:layout_constraintTop_toBottomOf="@id/editText_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="350dp"
+        android:layout_marginEnd="350dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/black"
+        android:textColor="@android:color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
