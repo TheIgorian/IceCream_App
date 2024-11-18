@@ -1,0 +1,47 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tvFlavorName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:padding="4dp"
+        android:text="Flavor Name"
+        android:textSize="16sp"
+        android:gravity="start" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="4dp"
+        android:text="Price"
+        android:textSize="16sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/tvQuantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="4dp"
+        android:text="Quantity"
+        android:textSize="16sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="4dp"
+        android:text="Status"
+        android:textSize="16sp"
+        android:gravity="center" />
+</LinearLayout>

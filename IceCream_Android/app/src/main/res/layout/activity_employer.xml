@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmployerActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="#f7eada"
+            android:layout_weight="2"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/logo"
+                android:clipToOutline="true"
+
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="10dp"
+                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:text="Ріжки"
+                    android:textStyle="bold"
+                    android:textSize="30sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="10dp"
+                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:text="Смаки"
+                    android:textStyle="bold"
+                    android:textSize="30sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="10dp"
+                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:text="Топінг"
+                    android:textStyle="bold"
+                    android:textSize="30sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="10dp"
+                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:text="Аналітика"
+                    android:textStyle="bold"
+                    android:textSize="30sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="10dp"
+                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:text="Користувачі"
+                    android:textStyle="bold"
+                    android:textSize="30sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="10dp"
+                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:text="Увійти як співробітник"
+                    android:textStyle="bold"
+                    android:textSize="30sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="10dp"
+                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:text="Вийти"
+                    android:textStyle="bold"
+                    android:textSize="30sp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:orientation="vertical">
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvHornsName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:padding="4dp"
+                    android:text="Flavor Name"
+                    android:textSize="16sp"
+                    android:gravity="start" />
+
+                <TextView
+                    android:id="@+id/tvHornsPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Price"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/tvHornsQuantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Quantity"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/tvHornsStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Status"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+            </LinearLayout>
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <!-- Столбец 1: Название -->
+                <TextView
+                    android:id="@+id/tvFlavorName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:padding="4dp"
+                    android:text="Flavor Name"
+                    android:textSize="16sp"
+                    android:gravity="start" />
+
+                <!-- Столбец 2: Цена -->
+                <TextView
+                    android:id="@+id/tvFlavorPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Price"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+
+                <!-- Столбец 3: Количество -->
+                <TextView
+                    android:id="@+id/tvFlavorQuantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Quantity"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+
+                <!-- Столбец 4: Состояние -->
+                <TextView
+                    android:id="@+id/tvFlavorStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Status"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+            </LinearLayout>
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <!-- Столбец 1: Название -->
+                <TextView
+                    android:id="@+id/tvToppingName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:padding="4dp"
+                    android:text="Flavor Name"
+                    android:textSize="16sp"
+                    android:gravity="start" />
+
+                <!-- Столбец 2: Цена -->
+                <TextView
+                    android:id="@+id/tvToppingPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Price"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+
+                <!-- Столбец 3: Количество -->
+                <TextView
+                    android:id="@+id/tvToppingQuantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Quantity"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+
+                <!-- Столбец 4: Состояние -->
+                <TextView
+                    android:id="@+id/tvToppingStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Status"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
