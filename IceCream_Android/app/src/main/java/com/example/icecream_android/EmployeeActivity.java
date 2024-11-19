@@ -43,8 +43,8 @@ public class EmployeeActivity extends AppCompatActivity {
             for (int i = 0; i < resultArray.length(); i++) {
                 JSONArray itemArray = resultArray.getJSONArray(i);
                 String name = itemArray.getString(0);
-                double price = itemArray.getDouble(1);
-                int quantity = itemArray.getInt(2);
+                int price = itemArray.getInt(2);
+                double quantity = itemArray.getDouble(1);
                 String uuid = itemArray.getString(3);
 
                 iceCreamList.add(new FlavorIceCream(name, price, quantity, uuid));

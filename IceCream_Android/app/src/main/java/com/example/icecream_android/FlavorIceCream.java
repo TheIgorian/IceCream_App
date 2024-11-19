@@ -2,11 +2,11 @@ package com.example.icecream_android;
 
 public class FlavorIceCream {
     private String name;
-    private double price;
-    private int quantity;
+    private int price;
+    private double quantity;
     private String uuid;
 
-    public FlavorIceCream(String name, double price, int quantity, String uuid) {
+    public FlavorIceCream(String name, int price, double quantity, String uuid) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -17,11 +17,11 @@ public class FlavorIceCream {
         return name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
