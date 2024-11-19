@@ -17,7 +17,6 @@ public class FlavorIceCreamAdapter extends RecyclerView.Adapter<FlavorIceCreamAd
     private final Context context;
     private final List<FlavorIceCream> iceCreamList;
 
-    // Конструктор адаптера
     public FlavorIceCreamAdapter(Context context, List<FlavorIceCream> iceCreamList) {
         this.context = context;
         this.iceCreamList = iceCreamList;
@@ -26,22 +25,22 @@ public class FlavorIceCreamAdapter extends RecyclerView.Adapter<FlavorIceCreamAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Создание представления для элемента
         View view = LayoutInflater.from(context).inflate(R.layout.item_ice_cream, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Получение текущего элемента
-        FlavorIceCream iceCream = iceCreamList.get(position);
+        FlavorIceCream item = iceCreamList.get(position);
 
-        String imageName = "ice_" + iceCream.getImageNumber();
+        // Установка данных
+        holder.iceCreamDetails.setText(item.getName() + " - " + item.getPrice() + " грн");
+        holder.quantityText.setText("Кількість: " + item.getQuantity());
+
+        // Установка изображения (пример на основе UUID или номера)
+        String imageName = "ice_" + position; // Логика получения изображения
         int imageResId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
         holder.iceCreamImage.setImageResource(imageResId);
-
-        // Установка текста (название + цена)
-        holder.iceCreamDetails.setText(iceCream.getName() + " - " + iceCream.getPrice() + " грн");
     }
 
     @Override
@@ -51,12 +50,13 @@ public class FlavorIceCreamAdapter extends RecyclerView.Adapter<FlavorIceCreamAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iceCreamImage;
-        TextView iceCreamDetails;
+        TextView iceCreamDetails, quantityText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iceCreamImage = itemView.findViewById(R.id.iceCreamImage);
             iceCreamDetails = itemView.findViewById(R.id.iceCreamDetails);
+            quantityText = itemView.findViewById(R.id.quantity);
         }
     }
 }

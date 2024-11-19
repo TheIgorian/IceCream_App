@@ -1,25 +1,32 @@
 package com.example.icecream_android;
 
 public class FlavorIceCream {
-    private final String name;
-    private final int price;
-    private final int imageNumber;
+    private String name;
+    private double price;
+    private int quantity;
+    private String uuid;
 
-    public FlavorIceCream(String name, int price, int imageNumber) {
+    public FlavorIceCream(String name, double price, int quantity, String uuid) {
         this.name = name;
         this.price = price;
-        this.imageNumber = imageNumber;
+        this.quantity = quantity;
+        this.uuid = uuid;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public int getImageNumber() {
-        return imageNumber;
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 }
+

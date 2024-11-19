@@ -28,4 +28,15 @@
         android:textSize="16sp"
         android:background="@drawable/shape_horns"
         android:clipToOutline="true" />
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:background="@drawable/shape_horns"
+        android:clipToOutline="true" />
+
 </LinearLayout>
