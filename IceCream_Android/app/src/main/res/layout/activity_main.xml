@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="250dp" />
+        android:layout_marginTop="150dp" />
 
     <!-- Випадаючий список (Dropdown) -->
     <AutoCompleteTextView
@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="256dp"
         android:layout_marginEnd="256dp"
-        android:layout_marginTop="200dp" />
+        android:layout_marginTop="100dp" />
 
     <!-- Поле для введення імені -->
     <EditText

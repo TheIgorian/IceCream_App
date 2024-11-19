@@ -1,14 +1,14 @@
 package com.example.icecream_android;
 
 public class FlavorIceCream {
-    private final String name;
-    private final int price;
-    private final int imageNumber;
+    private String name;
+    private int price;
+    private String imageName;
 
-    public FlavorIceCream(String name, int price, int imageNumber) {
+    public FlavorIceCream(String name, int price, String imageName) {
         this.name = name;
         this.price = price;
-        this.imageNumber = imageNumber;
+        this.imageName = imageName;
     }
 
     public String getName() {
@@ -19,7 +19,7 @@ public class FlavorIceCream {
         return price;
     }
 
-    public int getImageNumber() {
-        return imageNumber;
+    public String getImageName() {
+        return imageName;
     }
 }

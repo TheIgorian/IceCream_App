@@ -1,5 +1,6 @@
 package com.example.icecream_android;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,16 +32,18 @@ public class FlavorIceCreamAdapter extends RecyclerView.Adapter<FlavorIceCreamAd
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Получение текущего элемента
         FlavorIceCream iceCream = iceCreamList.get(position);
 
-        String imageName = "ice_" + iceCream.getImageNumber();
-        int imageResId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
+        int imageResId = context.getResources().getIdentifier(
+                iceCream.getImageName(),
+                "drawable",
+                context.getPackageName()
+        );
         holder.iceCreamImage.setImageResource(imageResId);
 
-        // Установка текста (название + цена)
         holder.iceCreamDetails.setText(iceCream.getName() + " - " + iceCream.getPrice() + " грн");
     }
 
