@@ -27,7 +27,7 @@ public class EmployeeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         // JSON-данные
-        String jsonData = "{'result': [['Шоколад', 500.0, 500, '2f5c9485-c58c-46e3-960d-3802a274c2db'], ... ]}";
+        String jsonData = "{'result': [['Полуниця', 500.0, 500, 'strawberry'], ['Малина', 500.0, 500, 'raspberry'], ['Лаванда', 500.0, 500, 'lavender'], ['Шоколад', 500.0, 500, 'chocolate'], ['Карамель', 500.0, 500, 'caramel'], ['Ваніль', 450.0, 500, 'vanilla'], ['Кокос', 500.0, 500, 'coconut'], ['Лимон', 500.0, 500, 'lemon'], [\"М'ятя\", 500.0, 500, 'mint']]}";
 
         List<FlavorIceCream> iceCreamList = parseJsonData(jsonData);
         FlavorIceCreamAdapter adapter = new FlavorIceCreamAdapter(this, iceCreamList);
