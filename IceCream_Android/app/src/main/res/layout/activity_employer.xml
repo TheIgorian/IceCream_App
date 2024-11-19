@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:fontFamily="@font/comfortaa_medium"
                     android:text="Ріжки"
                     android:textStyle="bold"
                     android:textSize="30sp"/>
@@ -43,16 +43,16 @@
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/Comfortaa_Medium"
-                    android:text="Смаки"
+                    android:fontFamily="@font/comfortaa_medium"
                     android:textStyle="bold"
+                    android:text="Смаки"
                     android:textSize="30sp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:fontFamily="@font/comfortaa_medium"
                     android:text="Топінг"
                     android:textStyle="bold"
                     android:textSize="30sp"/>
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:fontFamily="@font/comfortaa_medium"
                     android:text="Аналітика"
                     android:textStyle="bold"
                     android:textSize="30sp"/>
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:fontFamily="@font/comfortaa_medium"
                     android:text="Користувачі"
                     android:textStyle="bold"
                     android:textSize="30sp"/>
@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:fontFamily="@font/comfortaa_medium"
                     android:text="Увійти як співробітник"
                     android:textStyle="bold"
                     android:textSize="30sp"/>
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/Comfortaa_Medium"
+                    android:fontFamily="@font/comfortaa_medium"
                     android:text="Вийти"
                     android:textStyle="bold"
                     android:textSize="30sp"/>
