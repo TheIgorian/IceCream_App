@@ -33,7 +33,7 @@ public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdap
 
     public void clearSelection() {
         selectedItems.clear();
-        notifyDataSetChanged(); // Оновлює всі елементи адаптера
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -50,7 +50,7 @@ public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdap
 
         // Установка данных
         holder.toppingDetails.setText(item.getName());
-        holder.quantityText.setText("Кількість: " + item.getQuantity());
+        holder.quantityText.setText("Ціна: " + item.getPrice());
 
         // Установка изображения (пример на основе UUID или номера)
         int imageResId = context.getResources().getIdentifier(item.getUuid(), "drawable", context.getPackageName());

@@ -3,6 +3,7 @@ package com.example.icecream_android;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,29 +38,40 @@ public class IceCreamOrderAdapter extends RecyclerView.Adapter<IceCreamOrderAdap
 
         holder.iceCreamName.setText(hornText + flavorsText + toppingsText);
 
-        int sum = order.getFlavors_prices().stream().mapToInt(Integer::intValue).sum();
-        int count = order.getCount();
-        double totalPrice = sum * count;
+        int sumF = order.getFlavors_prices().stream().mapToInt(Integer::intValue).sum();
+        int sumT = order.getToppings_prices().stream().mapToInt(Integer::intValue).sum();
+        int countFlavors = order.getCount_flavors();
+        int countToppings = order.getCount_toppings();
+        double totalPrice = sumF * countFlavors + sumT * countToppings;
 
         holder.iceCreamPrice.setText("Ціна: " + totalPrice + "₴");
 
         holder.increaseButton.setOnClickListener(v -> {
-            int newCount = count + 1;
-            order.setCount(newCount);
+            int newCount = countFlavors + 1;
+            order.setCount_flavors(newCount);
+            order.setCount_toppings(newCount);
             notifyDataSetChanged();
             activity.updateTotalSum(); // Call updateTotalSum in EmployeeActivity
         });
 
         holder.decreaseButton.setOnClickListener(v -> {
-            if (count > 1) {
-                int newCount = count - 1;
-                order.setCount(newCount);
+            if (countFlavors > 1) {
+                int newCount = countFlavors - 1;
+                order.setCount_flavors(newCount);
+                order.setCount_toppings(newCount);
                 notifyDataSetChanged();
                 activity.updateTotalSum(); // Call updateTotalSum in EmployeeActivity
             }
         });
 
-        holder.itemCount.setText(String.valueOf(count));
+        holder.deleteButton.setOnClickListener(v -> {
+            orderList.remove(position); // Удалить элемент из списка
+            notifyItemRemoved(position); // Уведомить адаптер об удалении
+            notifyItemRangeChanged(position, orderList.size()); // Обновить диапазон
+            activity.updateTotalSum(); // Обновить сумму в Activity
+        });
+
+        holder.itemCount.setText(String.valueOf(countFlavors));
     }
 
     public List<IceCreamOrder> getOrderList() {
@@ -77,6 +89,7 @@ public class IceCreamOrderAdapter extends RecyclerView.Adapter<IceCreamOrderAdap
         TextView decreaseButton;
         TextView itemCount;
         TextView increaseButton;
+        TextView deleteButton; // Добавлена кнопка удаления
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +98,8 @@ public class IceCreamOrderAdapter extends RecyclerView.Adapter<IceCreamOrderAdap
             decreaseButton = itemView.findViewById(R.id.decreaseButton);
             itemCount = itemView.findViewById(R.id.itemCount);
             increaseButton = itemView.findViewById(R.id.increaseButton);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
         }
     }
+
 }

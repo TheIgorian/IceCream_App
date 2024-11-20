@@ -77,14 +77,15 @@ public class EmployeeActivity extends AppCompatActivity {
                     flavors_prices.add(flavor.getPrice());
                 }
                 List<String> toppings = new ArrayList<>();
+                List<Integer> toppings_prices = new ArrayList<>();
                 for (FlavorTopping topping : allSelectedTopping) {
                     toppings.add(topping.getName());
+                    toppings_prices.add(topping.getPrice());
                 }
 
                 // Создаём новый заказ
-                IceCreamOrder newOrder = new IceCreamOrder(hornText, flavors, toppings, flavors_prices);
+                IceCreamOrder newOrder = new IceCreamOrder(hornText, flavors, toppings, flavors_prices, toppings_prices);
 
-                // Добавляем заказ в список и уведомляем адаптер
                 orderList.add(newOrder);
                 orderAdapter.notifyDataSetChanged();
 
@@ -97,16 +98,17 @@ public class EmployeeActivity extends AppCompatActivity {
         });
     }
 
-
     public void updateTotalSum() {
         totalSum = 0.0;
         for (IceCreamOrder order : orderAdapter.getOrderList()) {
-
             totalSum += order.getTotalPrice();
         }
+        Log.d("DEBUG", "Total sum updated: " + totalSum);
         TextView sumCheckTextView = findViewById(R.id.sumCheck);
         sumCheckTextView.setText("Сума чека: " + totalSum + "₴");
     }
+
+
 
     private List<FlavorIceCream> parseJsonDataIceCream(String jsonDataIceCream) {
         List<FlavorIceCream> iceCreamList = new ArrayList<>();

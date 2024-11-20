@@ -7,23 +7,29 @@ public class IceCreamOrder {
     private List<String> flavors;
     private List<String> toppings;
     private List<Integer> flavors_prices;
-    private int count = 1;
-    private double totalPrice;
+    private List<Integer> toppings_prices;
+    private int count_flavors = 1;
+    private int count_toppings = 1;
 
-    public IceCreamOrder(String horn, List<String> flavors, List<String> toppings, List<Integer> flavors_prices) {
+    public IceCreamOrder(String horn, List<String> flavors, List<String> toppings, List<Integer> flavors_prices, List<Integer> toppings_prices) {
         this.horn = horn;
         this.flavors = flavors;
         this.toppings = toppings;
         this.flavors_prices = flavors_prices;
-        this.totalPrice = calculateTotalPrice();
+        this.toppings_prices = toppings_prices;
     }
 
     private double calculateTotalPrice() {
-        int sum = 0;
+        int sumF = 0, sumT = 0;
         for (Integer flavorPrice : flavors_prices) {
-            sum += flavorPrice;
+            sumF += flavorPrice;
         }
-        return sum * count;
+        sumF *= count_flavors;
+        for (Integer toppingPrices : toppings_prices){
+            sumT += toppingPrices;
+        }
+        sumT *= count_toppings;
+        return sumF +sumT;
     }
 
     public String getHorn() {
@@ -42,19 +48,27 @@ public class IceCreamOrder {
         return flavors_prices;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
+    public List<Integer> getToppings_prices() {
+        return toppings_prices;
     }
 
     public double getTotalPrice() {
-        return totalPrice;
+        return calculateTotalPrice();
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public int getCount_flavors() {
+        return count_flavors;
+    }
+
+    public void setCount_flavors(int count_flavors) {
+        this.count_flavors = count_flavors;
+    }
+
+    public int getCount_toppings() {
+        return count_toppings;
+    }
+
+    public void setCount_toppings(int count_toppings) {
+        this.count_toppings = count_toppings;
     }
 }

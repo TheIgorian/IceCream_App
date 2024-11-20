@@ -27,10 +27,13 @@ public class TypeHornAdapter extends RecyclerView.Adapter<TypeHornAdapter.ViewHo
 
     private final List<TypeHorn> selectedItems = new ArrayList<>();
 
+
+    //FIXME сдезь сделано выбор ( в остальных классах такой же метод)
     public List<TypeHorn> getSelectedItems() {
         return new ArrayList<>(selectedItems);
     }
 
+    //FIXME сдезь сделано очистка ( в остальных классах такой же метод)
     public void clearSelection() {
         selectedItems.clear();
         notifyDataSetChanged();
