@@ -4,7 +4,7 @@ public class FlavorIceCream {
     private String name;
     private double quantity;
     private int price;
-        private String uuid;
+    private String uuid;
 
     public FlavorIceCream(String name, int price, double quantity, String uuid) {
         this.name = name;
