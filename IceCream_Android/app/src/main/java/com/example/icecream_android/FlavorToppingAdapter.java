@@ -19,11 +19,13 @@ import java.util.List;
 public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<FlavorTopping> ToppingList;
+    private final List<FlavorTopping> toppingList;
+    private List<FlavorTopping> filteredList;
 
     public FlavorToppingAdapter(Context context, List<FlavorTopping> iceCreamList) {
         this.context = context;
-        this.ToppingList = iceCreamList;
+        this.toppingList = iceCreamList;
+        this.filteredList = new ArrayList<>(iceCreamList);
     }
 
     private final List<FlavorTopping> selectedItems = new ArrayList<>();
@@ -47,7 +49,7 @@ public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdap
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FlavorTopping item = ToppingList.get(position);
+        FlavorTopping item = filteredList.get(position);
 
         // Установка данных
         holder.toppingDetails.setText(item.getName());
@@ -80,7 +82,28 @@ public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdap
     }
 
     @Override
-    public int getItemCount() { return ToppingList.size(); }
+    public int getItemCount() { return filteredList.size(); }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void filterTopping(String query) {
+        // Очищуємо список перед фільтрацією
+        filteredList.clear();
+
+        if (query.isEmpty()) {
+            // Якщо запит порожній, показуємо весь список
+            filteredList.addAll(toppingList);
+        } else {
+            // Додаємо тільки ті елементи, які відповідають запиту
+            String lowerCaseQuery = query.toLowerCase();
+            for (FlavorTopping item : toppingList) {
+                if (item.getName().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredList.add(item); // Додаємо відповідний елемент
+                }
+            }
+        }
+        // Оновлюємо RecyclerView
+        notifyDataSetChanged();
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView toppingImage;

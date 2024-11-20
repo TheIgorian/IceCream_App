@@ -19,22 +19,21 @@ import java.util.List;
 public class TypeHornAdapter extends RecyclerView.Adapter<TypeHornAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<TypeHorn> HornList;
+    private final List<TypeHorn> hornList;
+    private List<TypeHorn> filteredList;
 
     public TypeHornAdapter(Context context, List<TypeHorn> iceCreamList) {
         this.context = context;
-        this.HornList = iceCreamList;
+        this.hornList = iceCreamList;
+        this.filteredList = new ArrayList<>(iceCreamList);
     }
 
     private final List<TypeHorn> selectedItems = new ArrayList<>();
 
-
-    //FIXME сдезь сделано выбор ( в остальных классах такой же метод)
     public List<TypeHorn> getSelectedItems() {
         return new ArrayList<>(selectedItems);
     }
 
-    //FIXME сдезь сделано очистка ( в остальных классах такой же метод)
     public void clearSelection() {
         selectedItems.clear();
         notifyDataSetChanged();
@@ -50,17 +49,17 @@ public class TypeHornAdapter extends RecyclerView.Adapter<TypeHornAdapter.ViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TypeHorn item = HornList.get(position);
+        TypeHorn item = filteredList.get(position);
 
-        // Установка данных
+        // Установка даних
         holder.hornDetails.setText(item.getName());
         holder.quantityText.setText("Кількість: " + item.getQuantity());
 
-        // Установка изображения (пример на основе UUID или номера)
+        // Установка зображення
         int imageResId = context.getResources().getIdentifier(item.getUuid(), "drawable", context.getPackageName());
         holder.hornImage.setImageResource(imageResId);
 
-        // Проверка, выбран ли элемент, и установка соответствующего фона
+        // Перевірка, чи вибраний елемент
         if (selectedItems.contains(item)) {
             holder.itemView.setBackgroundColor(Color.LTGRAY); // Выделить элемент
         } else {
@@ -84,7 +83,29 @@ public class TypeHornAdapter extends RecyclerView.Adapter<TypeHornAdapter.ViewHo
 
 
     @Override
-    public int getItemCount() { return HornList.size(); }
+    public int getItemCount() { return filteredList.size(); }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void filterHorn(String query) {
+        // Очищуємо список перед фільтрацією
+        filteredList.clear();
+
+        if (query.isEmpty()) {
+            // Якщо запит порожній, показуємо весь список
+            filteredList.addAll(hornList);
+        } else {
+            // Додаємо тільки ті елементи, які відповідають запиту
+            String lowerCaseQuery = query.toLowerCase();
+            for (TypeHorn item : hornList) {
+                if (item.getName().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredList.add(item); // Додаємо відповідний елемент
+                }
+            }
+        }
+        // Оновлюємо RecyclerView
+        notifyDataSetChanged();
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView hornImage;

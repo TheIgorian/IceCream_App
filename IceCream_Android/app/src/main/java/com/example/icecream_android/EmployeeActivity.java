@@ -49,7 +49,7 @@ public class EmployeeActivity extends AppCompatActivity {
         // JSON-данные
         String jsonDataIceCream = "{'result': [['Полуниця', 500.0, 500, 'strawberry'], ['Малина', 500.0, 500, 'raspberry'], ['Лаванда', 500.0, 500, 'lavender'], ['Шоколад', 500.0, 500, 'chocolate'], ['Карамель', 500.0, 500, 'caramel'], ['Ваніль', 450.0, 500, 'vanilla'], ['Кокос', 500.0, 500, 'coconut'], ['Лимон', 500.0, 500, 'lemon'], [\"М'ятя\", 500.0, 500, 'mint']]}";
         String jsonDataTopping = "{'result': [['Мед', 200.0, 10, 'top_honey'], ['Карамель', 200.0, 15, 'top_caramel_syrup'], ['Вафлі', 200.0, 10, 'top_wafer_crumbs'], ['Зефір', 250.0, 10, 'top_marshmallow'], ['Горішки', 200.0, 10, 'top_nuts'], ['Шоко сироп', 199.79, 15, 'top_chocolate_syrup']]}";
-        String jsonDataHorn = "{'result': [['Звичайний', 210, 'common'], ['Солоний', 210, 'solt'], ['Бумажний', 410, 'paper'], ['Солодкий', 240, 'sugar']]}";
+        String jsonDataHorn = "{'result': [['Звичайний', 210, 'common'], ['Солоний', 210, 'solt'], ['Паперовий', 410, 'paper'], ['Солодкий', 240, 'sugar']]}";
 
         List<FlavorIceCream> iceCreamList = parseJsonDataIceCream(jsonDataIceCream);
         List<FlavorTopping> toppingList = parseJsonDataTopping(jsonDataTopping);
@@ -185,7 +185,36 @@ public class EmployeeActivity extends AppCompatActivity {
 
             dialog.show();
         });
+        //Пошук Зіжок, Морозиво, Топінг
+        EditText searchHornEditText = findViewById(R.id.SearchHornEditText);
+        EditText searchIceCreamEditText = findViewById(R.id.SearchIceCreamEditText);
+        EditText searchToppingEditText = findViewById(R.id.SearchToppingEditText);
 
+
+        searchHornEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { adapterHorn.filterHorn(s.toString()); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        searchIceCreamEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { adapterIceCream.filterIceCream(s.toString()); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        searchToppingEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { adapterTopping.filterTopping(s.toString()); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
 
     }
 

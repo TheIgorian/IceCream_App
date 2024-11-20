@@ -20,10 +20,12 @@ public class FlavorIceCreamAdapter extends RecyclerView.Adapter<FlavorIceCreamAd
 
     private final Context context;
     private final List<FlavorIceCream> iceCreamList;
+    private List<FlavorIceCream> filteredList;
 
     public FlavorIceCreamAdapter(Context context, List<FlavorIceCream> iceCreamList) {
         this.context = context;
         this.iceCreamList = iceCreamList;
+        this.filteredList = new ArrayList<>(iceCreamList);
     }
 
     private final List<FlavorIceCream> selectedItems = new ArrayList<>();
@@ -47,7 +49,7 @@ public class FlavorIceCreamAdapter extends RecyclerView.Adapter<FlavorIceCreamAd
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FlavorIceCream item = iceCreamList.get(position);
+        FlavorIceCream item = filteredList.get(position);
 
         // Установка данных
         holder.iceCreamDetails.setText(item.getName());
@@ -79,10 +81,29 @@ public class FlavorIceCreamAdapter extends RecyclerView.Adapter<FlavorIceCreamAd
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return iceCreamList.size();
+    @SuppressLint("NotifyDataSetChanged")
+    public void filterIceCream(String query) {
+        // Очищуємо список перед фільтрацією
+        filteredList.clear();
+
+        if (query.isEmpty()) {
+            // Якщо запит порожній, показуємо весь список
+            filteredList.addAll(iceCreamList);
+        } else {
+            // Додаємо тільки ті елементи, які відповідають запиту
+            String lowerCaseQuery = query.toLowerCase();
+            for (FlavorIceCream item : iceCreamList) {
+                if (item.getName().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredList.add(item); // Додаємо відповідний елемент
+                }
+            }
+        }
+        // Оновлюємо RecyclerView
+        notifyDataSetChanged();
     }
+
+    @Override
+    public int getItemCount() { return filteredList.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iceCreamImage;
