@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Поле для введення імені -->
+    <EditText
+        android:id="@+id/etFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ім'я"
+        android:inputType="textPersonName" />
+
+    <!-- Поле для введення прізвища -->
+    <EditText
+        android:id="@+id/etLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Прізвище"
+        android:inputType="textPersonName" />
+
+    <!-- Випадаючий список для вибору ролі -->
+    <Spinner
+        android:id="@+id/spRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:entries="@array/roles_array" />
+
+    <!-- Поле для введення телефону -->
+    <EditText
+        android:id="@+id/etPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Телефон"
+        android:inputType="phone"
+        android:layout_marginTop="8dp" />
+
+    <!-- Поле для введення логіну -->
+    <EditText
+        android:id="@+id/etLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Логін"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="8dp" />
+
+    <!-- Поле для введення пароля -->
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Пароль"
+        android:inputType="textPassword"
+        android:layout_marginTop="8dp" />
+</LinearLayout>

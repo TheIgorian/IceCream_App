@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">IceCream_Android</string>
-    <string name="api_url">https://e495-212-111-203-153.ngrok-free.app/database</string> <!-- Ваш URL -->
+    <string name="api_url">https://966c-212-111-203-152.ngrok-free.app/database</string> <!-- Ваш URL -->
+    <string-array name="roles_array">
+        <item>Адмін</item>
+        <item>Працівник</item>
+    </string-array>
 </resources>
