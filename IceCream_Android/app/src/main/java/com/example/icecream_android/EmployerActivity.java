@@ -159,88 +159,87 @@ public class EmployerActivity extends AppCompatActivity {
             AlertDialog dialog = new AlertDialog.Builder(EmployerActivity.this)
                     .setTitle("Додати працівника")
                     .setView(dialogView)
-                    .setPositiveButton("Додати", (dialogInterface, which) -> {
-                        // Отримання введених даних
-                        EditText etFirstName = dialogView.findViewById(R.id.etFirstName);
-                        EditText etLastName = dialogView.findViewById(R.id.etLastName);
-                        Spinner spRole = dialogView.findViewById(R.id.spRole);
-                        EditText etPhone = dialogView.findViewById(R.id.etPhone);
-                        EditText etLogin = dialogView.findViewById(R.id.etLogin);
-                        EditText etPassword = dialogView.findViewById(R.id.etPassword);
-
-                        String firstName = etFirstName.getText().toString().trim();
-                        String lastName = etLastName.getText().toString().trim();
-                        String role = spRole.getSelectedItem().toString();
-                        String phone = etPhone.getText().toString().trim();
-                        String login = etLogin.getText().toString().trim();
-                        String password = etPassword.getText().toString().trim();
-
-                        // Перевірка на порожні поля
-                        if (firstName.isEmpty() || lastName.isEmpty() || phone.isEmpty() || login.isEmpty() || password.isEmpty()) {
-                            Toast.makeText(EmployerActivity.this, "Заповніть всі поля!", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        JSONObject employeeJson = new JSONObject();
-                        try {
-                            // Заміна існуючого об'єкта requestJson на новий порожній об'єкт
-
-
-                            // Запис нових значень, якщо потрібно
-                            employeeJson.put("function_name", "add_employee");
-                            employeeJson.put("param_dict", new JSONObject()
-                                    .put("first_name", firstName)
-                                    .put("last_name", lastName)
-                                    .put("position", role)
-                                    .put("login", login)
-                                    .put("phone", phone)
-                                    .put("password", password)
-                                    .put("point_id", idPoint)
-
-                            );
-                        } catch (JSONException e) {
-                            Toast.makeText(EmployerActivity.this, "Помилка формування JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-
-                        httpClientHelper.sendPostRequest(getString(R.string.api_url), employeeJson, new HttpClientHelper.ResponseCallback() {
-                            @Override
-                            public void onSuccess(String response) {
-                                runOnUiThread(() -> {
-                                    try {
-                                        // Парсинг JSON-відповіді
-                                        JSONObject jsonResponse = new JSONObject(response);
-                                        boolean result = jsonResponse.getBoolean("result");
-
-                                        if (result) {
-                                            // Додавання до списку
-                                            employeeList.add(new String[]{firstName, lastName, role, login, phone});
-                                            // Оновлення адаптера
-                                            recyclerView.getAdapter().notifyDataSetChanged();
-                                            Toast.makeText(EmployerActivity.this, "Працівника додано", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(EmployerActivity.this, "Помилка додавання працівника", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    } catch (Exception e) {
-                                        Toast.makeText(EmployerActivity.this, "Помилка обробки JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(String error) {
-                                runOnUiThread(() -> {
-                                    // Обробка помилки
-                                    // Наприклад, показати повідомлення користувачу
-                                    System.out.println("Error: " + error);
-                                });
-                            }
-                        });
-                    })
-                    .setNegativeButton("Скасувати", null)
+                    .setPositiveButton("Додати", null) // Спочатку передаємо null
+                    .setNegativeButton("Скасувати", (dialogInterface, which) -> dialogInterface.dismiss())
                     .create();
 
+            dialog.setOnShowListener(dialogInterface -> {
+                Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(v -> {
+                    // Отримання введених даних
+                    EditText etFirstName = dialogView.findViewById(R.id.etFirstName);
+                    EditText etLastName = dialogView.findViewById(R.id.etLastName);
+                    Spinner spRole = dialogView.findViewById(R.id.spRole);
+                    EditText etPhone = dialogView.findViewById(R.id.etPhone);
+                    EditText etLogin = dialogView.findViewById(R.id.etLogin);
+                    EditText etPassword = dialogView.findViewById(R.id.etPassword);
+
+                    String firstName = etFirstName.getText().toString().trim();
+                    String lastName = etLastName.getText().toString().trim();
+                    String role = spRole.getSelectedItem().toString();
+                    String phone = etPhone.getText().toString().trim();
+                    String login = etLogin.getText().toString().trim();
+                    String password = etPassword.getText().toString().trim();
+
+                    // Перевірка на порожні поля
+                    if (firstName.isEmpty() || lastName.isEmpty() || phone.isEmpty() || login.isEmpty() || password.isEmpty()) {
+                        Toast.makeText(EmployerActivity.this, "Заповніть всі поля!", Toast.LENGTH_SHORT).show();
+                        return; // Діалог залишається відкритим
+                    }
+
+                    JSONObject employeeJson = new JSONObject();
+                    try {
+                        employeeJson.put("function_name", "add_employee");
+                        employeeJson.put("param_dict", new JSONObject()
+                                .put("first_name", firstName)
+                                .put("last_name", lastName)
+                                .put("position", role)
+                                .put("login", login)
+                                .put("phone", phone)
+                                .put("password", password)
+                                .put("point_id", idPoint)
+                        );
+                    } catch (JSONException e) {
+                        Toast.makeText(EmployerActivity.this, "Помилка формування JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    httpClientHelper.sendPostRequest(getString(R.string.api_url), employeeJson, new HttpClientHelper.ResponseCallback() {
+                        @Override
+                        public void onSuccess(String response) {
+                            runOnUiThread(() -> {
+                                try {
+                                    JSONObject jsonResponse = new JSONObject(response);
+                                    boolean result = jsonResponse.getBoolean("result");
+
+                                    if (result) {
+                                        // Додавання до списку
+                                        employeeList.add(new String[]{firstName, lastName, role, login, phone});
+                                        recyclerView.getAdapter().notifyDataSetChanged();
+                                        Toast.makeText(EmployerActivity.this, "Працівника додано", Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss(); // Закрити діалог при успіху
+                                    } else {
+                                        Toast.makeText(EmployerActivity.this, "Даний login вже існує", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                } catch (Exception e) {
+                                    Toast.makeText(EmployerActivity.this, "Помилка обробки JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+                            runOnUiThread(() -> {
+                                System.out.println("Error: " + error);
+                            });
+                        }
+                    });
+                });
+            });
+
             dialog.show();
+
         });
     }
 }
