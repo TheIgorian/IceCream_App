@@ -2,6 +2,7 @@ package com.example.icecream_android;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdapter.ViewHolder> {
@@ -21,6 +23,17 @@ public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdap
     public FlavorToppingAdapter(Context context, List<FlavorTopping> iceCreamList) {
         this.context = context;
         this.ToppingList = iceCreamList;
+    }
+
+    private final List<FlavorTopping> selectedItems = new ArrayList<>();
+
+    public List<FlavorTopping> getSelectedItems() {
+        return new ArrayList<>(selectedItems);
+    }
+
+    public void clearSelection() {
+        selectedItems.clear();
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -36,13 +49,29 @@ public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdap
         FlavorTopping item = ToppingList.get(position);
 
         // Установка данных
-        holder.toppingDetails.setText(item.getName() + " - " + item.getPrice() + " грн");
-        holder.quantityText.setText("Кількість: " + item.getQuantity());
+        holder.toppingDetails.setText(item.getName());
+        holder.quantityText.setText("Ціна: " + item.getPrice());
 
         // Установка изображения (пример на основе UUID или номера)
-        //String imageName = "ice_" + position; // Логика получения изображения
         int imageResId = context.getResources().getIdentifier(item.getUuid(), "drawable", context.getPackageName());
         holder.toppingImage.setImageResource(imageResId);
+
+        // Проверка, выбран ли элемент, и установка соответствующего фона
+        if (selectedItems.contains(item)) {
+            holder.itemView.setBackgroundColor(Color.LTGRAY); // Выделить элемент
+        } else {
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT); // Убрать выделение
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (selectedItems.contains(item)) {
+                selectedItems.remove(item);
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT); // Убрать выделение
+            } else {
+                selectedItems.add(item);
+                holder.itemView.setBackgroundColor(Color.LTGRAY); // Выделить элемент
+            }
+        });
     }
 
     @Override
