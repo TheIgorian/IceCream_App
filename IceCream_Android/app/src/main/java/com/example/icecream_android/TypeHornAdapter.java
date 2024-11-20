@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,10 +70,14 @@ public class TypeHornAdapter extends RecyclerView.Adapter<TypeHornAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> {
             if (selectedItems.contains(item)) {
                 selectedItems.remove(item);
-                holder.itemView.setBackgroundColor(Color.TRANSPARENT); // Убрать выделение
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT); // Убрати виділення
             } else {
-                selectedItems.add(item);
-                holder.itemView.setBackgroundColor(Color.LTGRAY); // Выделить элемент
+                if (selectedItems.size() < 1) { // Перевірка на максимум 1
+                    selectedItems.add(item);
+                    holder.itemView.setBackgroundColor(Color.LTGRAY); // Виділити елемент
+                } else {
+                    Toast.makeText(context, "Можна обрати тільки один ріжок", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -1,10 +1,17 @@
 package com.example.icecream_android;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,6 +75,12 @@ public class EmployeeActivity extends AppCompatActivity {
             List<FlavorIceCream> allSelectedIceCream = adapterIceCream.getSelectedItems();
             List<FlavorTopping> allSelectedTopping = adapterTopping.getSelectedItems();
 
+            // Перевірка: якщо вибрано лише ріжок, заборонити додавання
+            if (!allSelectedHorn.isEmpty() && allSelectedIceCream.isEmpty()) {
+                Toast.makeText(this, "Додайте хоча б один вид морозива", Toast.LENGTH_SHORT).show();
+                return; // Припинити виконання, якщо умова виконується
+            }
+
             if (!allSelectedHorn.isEmpty()) {
                 String hornText = allSelectedHorn.get(0).getName();
                 List<String> flavors = new ArrayList<>();
@@ -83,7 +96,7 @@ public class EmployeeActivity extends AppCompatActivity {
                     toppings_prices.add(topping.getPrice());
                 }
 
-                // Создаём новый заказ
+                // Створюємо нове замовлення
                 IceCreamOrder newOrder = new IceCreamOrder(hornText, flavors, toppings, flavors_prices, toppings_prices);
 
                 orderList.add(newOrder);
@@ -96,6 +109,84 @@ public class EmployeeActivity extends AppCompatActivity {
                 updateTotalSum();
             }
         });
+
+        Button payButton = findViewById(R.id.PayButton);
+        payButton.setOnClickListener(v -> {
+            double totalSum = this.totalSum;
+
+            if (orderList.isEmpty()) {
+                Toast.makeText(EmployeeActivity.this, "Чек порожній. Додайте хоча б одне замовлення.", Toast.LENGTH_SHORT).show();
+                return; // Вихід, якщо немає замовлень
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Оплата");
+
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setPadding(50, 20, 50, 20);
+
+            TextView totalTextView = new TextView(this);
+            totalTextView.setText("Сума чека: " + totalSum + "₴");
+            layout.addView(totalTextView);
+
+            EditText inputAmount = new EditText(this);
+            inputAmount.setHint("Введіть суму");
+            inputAmount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            layout.addView(inputAmount);
+
+            TextView changeTextView = new TextView(this);
+            changeTextView.setText("Решта: 0₴");
+            layout.addView(changeTextView);
+
+            // Ініціалізація кнопок
+            builder.setView(layout);
+
+            builder.setPositiveButton("Card", (dialog, which) -> {
+                showPrintCheckDialog("Оплата карткою завершена");
+            });
+
+            AlertDialog dialog = builder.create(); // Створюємо діалог перед встановленням кнопок
+            dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cash", (d, which) -> {
+                showPrintCheckDialog("Оплата готівкою завершена");
+            });
+
+            dialog.setOnShowListener(d -> {
+                Button cashButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                cashButton.setEnabled(false); // Вимкнена кнопка спочатку
+
+                // Слухач змін тексту
+                inputAmount.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try {
+                            double enteredAmount = Double.parseDouble(s.toString());
+                            if (enteredAmount >= totalSum) {
+                                cashButton.setEnabled(true); // Активуємо кнопку Cash
+                                double change = enteredAmount - totalSum;
+                                changeTextView.setText("Решта: " + change + "₴");
+                            } else {
+                                cashButton.setEnabled(false); // Вимикаємо кнопку Cash
+                                changeTextView.setText("Недостатньо коштів");
+                            }
+                        } catch (NumberFormatException e) {
+                            cashButton.setEnabled(false); // Вимикаємо кнопку Cash при неправильному вводі
+                            changeTextView.setText("Решта: 0₴");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {}
+                });
+            });
+
+            dialog.show();
+        });
+
+
     }
 
     public void updateTotalSum() {
@@ -108,6 +199,32 @@ public class EmployeeActivity extends AppCompatActivity {
         sumCheckTextView.setText("Сума чека: " + totalSum + "₴");
     }
 
+    private void clearOrder() {
+        orderList.clear();
+        orderAdapter.notifyDataSetChanged();
+        totalSum = 0.0;
+        TextView sumCheckTextView = findViewById(R.id.sumCheck);
+        sumCheckTextView.setText("Сума чека: " + totalSum + "₴");
+    }
+
+    private void showPrintCheckDialog(String paymentMessage) {
+        AlertDialog.Builder printBuilder = new AlertDialog.Builder(this);
+        printBuilder.setTitle(paymentMessage);
+        printBuilder.setMessage("Чи потрібно друкувати чек?");
+
+        printBuilder.setPositiveButton("Так", (dialog, which) -> {
+            // Імітація друку чеку
+            Toast.makeText(this, "Чек друкується...", Toast.LENGTH_SHORT).show();
+            clearOrder(); // Очищення замовлення
+        });
+
+        printBuilder.setNegativeButton("Ні", (dialog, which) -> {
+            Toast.makeText(this, "Оплата завершена без друку чеку", Toast.LENGTH_SHORT).show();
+            clearOrder(); // Очищення замовлення
+        });
+
+        printBuilder.show();
+    }
 
 
     private List<FlavorIceCream> parseJsonDataIceCream(String jsonDataIceCream) {
