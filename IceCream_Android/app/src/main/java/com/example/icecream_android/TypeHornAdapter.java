@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdapter.ViewHolder> {
+public class TypeHornAdapter extends RecyclerView.Adapter<TypeHornAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<FlavorTopping> ToppingList;
+    private final List<TypeHorn> HornList;
 
-    public FlavorToppingAdapter(Context context, List<FlavorTopping> iceCreamList) {
+    public TypeHornAdapter(Context context, List<TypeHorn> iceCreamList) {
         this.context = context;
-        this.ToppingList = iceCreamList;
+        this.HornList = iceCreamList;
     }
 
     @NonNull
@@ -33,29 +33,29 @@ public class FlavorToppingAdapter extends RecyclerView.Adapter<FlavorToppingAdap
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FlavorTopping item = ToppingList.get(position);
+        TypeHorn item = HornList.get(position);
 
         // Установка данных
-        holder.toppingDetails.setText(item.getName() + " - " + item.getPrice() + " грн");
+        holder.hornDetails.setText(item.getName());
         holder.quantityText.setText("Кількість: " + item.getQuantity());
 
         // Установка изображения (пример на основе UUID или номера)
         //String imageName = "ice_" + position; // Логика получения изображения
         int imageResId = context.getResources().getIdentifier(item.getUuid(), "drawable", context.getPackageName());
-        holder.toppingImage.setImageResource(imageResId);
+        holder.hornImage.setImageResource(imageResId);
     }
 
     @Override
-    public int getItemCount() { return ToppingList.size(); }
+    public int getItemCount() { return HornList.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView toppingImage;
-        TextView toppingDetails, quantityText;
+        ImageView hornImage;
+        TextView hornDetails, quantityText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            toppingImage = itemView.findViewById(R.id.iceCreamImage);
-            toppingDetails = itemView.findViewById(R.id.iceCreamDetails);
+            hornImage = itemView.findViewById(R.id.iceCreamImage);
+            hornDetails = itemView.findViewById(R.id.iceCreamDetails);
             quantityText = itemView.findViewById(R.id.quantity);
         }
     }
