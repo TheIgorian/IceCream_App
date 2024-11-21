@@ -1,6 +1,7 @@
 package com.example.icecream_android;
 
 import android.adservices.topics.Topic;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -226,7 +227,6 @@ public class EmployeeActivity extends AppCompatActivity {
             // Ініціалізація кнопок
             builder.setView(layout);
             builder.setPositiveButton("Card", (dialog, which) -> {
-                JSONObject requestJsonCard = new JSONObject();
                 JSONObject jsonRequest = OrderToJsonConverter.convertOrdersToJson(idEmployee, idPoint, orderList);
                 httpClientHelper.sendPostRequest(getString(R.string.api_url), jsonRequest, new HttpClientHelper.ResponseCallback() {
                     @Override
@@ -242,6 +242,7 @@ public class EmployeeActivity extends AppCompatActivity {
 
                                     // Если результат больше 0, показываем сообщение об успешной оплате
                                     if (price > 0) {
+                                        adapterHorn.notifyDataSetChanged();
                                         showPrintCheckDialog("Оплата карткою завершена");
                                     } else {
                                         // Если результат 0, показываем ошибку сервера
@@ -269,7 +270,6 @@ public class EmployeeActivity extends AppCompatActivity {
 
             AlertDialog dialog = builder.create(); // Створюємо діалог перед встановленням кнопок
             dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cash", (d, which) -> {
-                JSONObject requestJsonCard = new JSONObject();
                 JSONObject jsonRequest = OrderToJsonConverter.convertOrdersToJson(idEmployee, idPoint, orderList);
                 httpClientHelper.sendPostRequest(getString(R.string.api_url), jsonRequest, new HttpClientHelper.ResponseCallback() {
                     @Override
@@ -285,6 +285,7 @@ public class EmployeeActivity extends AppCompatActivity {
 
                                     // Если результат больше 0, показываем сообщение об успешной оплате
                                     if (price > 0) {
+                                        adapterHorn.notifyDataSetChanged();
                                         showPrintCheckDialog("Оплата готівкою завершена");
                                     } else {
                                         // Если результат 0, показываем ошибку сервера
@@ -559,6 +560,7 @@ public class EmployeeActivity extends AppCompatActivity {
         sumCheckTextView.setText("Сума чека: " + totalSum + "₴");
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void showPrintCheckDialog(String paymentMessage) {
         AlertDialog.Builder printBuilder = new AlertDialog.Builder(this);
         printBuilder.setTitle(paymentMessage);
