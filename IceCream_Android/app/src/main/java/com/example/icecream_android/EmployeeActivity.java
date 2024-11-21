@@ -1,10 +1,14 @@
 package com.example.icecream_android;
 
+import android.adservices.topics.Topic;
+import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -18,21 +22,35 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class EmployeeActivity extends AppCompatActivity {
 
     private double totalSum = 0.0;
     List<IceCreamOrder> orderList;
     IceCreamOrderAdapter orderAdapter;
+    private List<FlavorIceCream> flavorIceCreams;
+    private List<TypeHorn> typeHorns;
+    private List<FlavorTopping> flavorToppings;
+    SharedPreferences sharedPreferences;
+    private FlavorIceCreamAdapter adapterIceCream;
+    private FlavorToppingAdapter adapterTopping;
+    private TypeHornAdapter adapterHorn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee);
+
+        sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        String idPoint = sharedPreferences.getString("point", null);
 
         RecyclerView recyclerViewIceCream = findViewById(R.id.recyclerViewIceCream);
         recyclerViewIceCream.setLayoutManager(new GridLayoutManager(this, 2));
@@ -46,25 +64,90 @@ public class EmployeeActivity extends AppCompatActivity {
         RecyclerView recyclerViewCheck = findViewById(R.id.check);
         recyclerViewCheck.setLayoutManager(new LinearLayoutManager(this));
 
-        // JSON-данные
-        String jsonDataIceCream = "{'result': [['Полуниця', 500.0, 500, 'strawberry'], ['Малина', 500.0, 500, 'raspberry'], ['Лаванда', 500.0, 500, 'lavender'], ['Шоколад', 500.0, 500, 'chocolate'], ['Карамель', 500.0, 500, 'caramel'], ['Ваніль', 450.0, 500, 'vanilla'], ['Кокос', 500.0, 500, 'coconut'], ['Лимон', 500.0, 500, 'lemon'], [\"М'ятя\", 500.0, 500, 'mint']]}";
-        String jsonDataTopping = "{'result': [['Мед', 200.0, 10, 'top_honey'], ['Карамель', 200.0, 15, 'top_caramel_syrup'], ['Вафлі', 200.0, 10, 'top_wafer_crumbs'], ['Зефір', 250.0, 10, 'top_marshmallow'], ['Горішки', 200.0, 10, 'top_nuts'], ['Шоко сироп', 199.79, 15, 'top_chocolate_syrup']]}";
-        String jsonDataHorn = "{'result': [['Звичайний', 210, 'common'], ['Солоний', 210, 'solt'], ['Паперовий', 410, 'paper'], ['Солодкий', 240, 'sugar']]}";
+        flavorIceCreams = new ArrayList<>();
+        flavorToppings = new ArrayList<>();
+        typeHorns = new ArrayList<>();
 
-        List<FlavorIceCream> iceCreamList = parseJsonDataIceCream(jsonDataIceCream);
-        List<FlavorTopping> toppingList = parseJsonDataTopping(jsonDataTopping);
-        List<TypeHorn> hornList = parseJsonDataHorn(jsonDataHorn);
+        // URL для запиту
+        JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("function_name", "get_all_object_for_company");
+            requestJson.put("param_dict", new JSONObject()
+                    .put("point", idPoint)
+            );
+        } catch (JSONException e) {
+            Toast.makeText(EmployeeActivity.this, "Помилка формування JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        FlavorIceCreamAdapter adapterIceCream = new FlavorIceCreamAdapter(this, iceCreamList);
-        FlavorToppingAdapter adapterTopping = new FlavorToppingAdapter(this, toppingList);
-        TypeHornAdapter adapterHorn = new TypeHornAdapter(this, hornList);
+        // Ініціалізація HttpClientHelper для запиту
+        HttpClientHelper httpClientHelper = new HttpClientHelper();
+        httpClientHelper.sendPostRequest(getString(R.string.api_url), requestJson, new HttpClientHelper.ResponseCallback() {
+            @Override
+            public void onSuccess(String response) {
+                runOnUiThread(() -> {
+                    try {
+                        // Парсинг JSON-відповіді
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONObject jsonObject = jsonResponse.getJSONObject("result");
+                        JSONArray flavorsArray = jsonObject.getJSONArray("flavor");
+                        JSONArray hornsArray = jsonObject.getJSONArray("cone");
+                        JSONArray toppingsArray = jsonObject.getJSONArray("additive");
 
-        recyclerViewIceCream.setAdapter(adapterIceCream);
-        recyclerViewTopping.setAdapter(adapterTopping);
-        recyclerViewHorn.setAdapter(adapterHorn);
+                        // Очистка списков перед заполнением
+                        flavorIceCreams.clear();
+                        typeHorns.clear();
+                        flavorToppings.clear();
 
+                        // Заполнение списков
+                        for (int i = 0; i < flavorsArray.length(); i++) {
+                            JSONArray flavorArray = flavorsArray.getJSONArray(i);
+                            String nameFlavor = flavorArray.getString(0);
+                            double quantityFlavor = flavorArray.getDouble(1);
+                            int priceFlavor = flavorArray.getInt(2);
+                            String imageFlavor = flavorArray.getString(3);
+                            flavorIceCreams.add(new FlavorIceCream(nameFlavor, priceFlavor, quantityFlavor, imageFlavor));
+                        }
+                        for (int i = 0; i < hornsArray.length(); i++) {
+                            JSONArray hornArray = hornsArray.getJSONArray(i);
+                            String nameHorn = hornArray.getString(0);
+                            int quantityHorn = hornArray.getInt(1);
+                            String imageHorn = hornArray.getString(2);
+                            typeHorns.add(new TypeHorn(nameHorn, quantityHorn, imageHorn));
+                        }
+                        for (int i = 0; i < toppingsArray.length(); i++) {
+                            JSONArray toppingArray = toppingsArray.getJSONArray(i);
+                            String nameTopping = toppingArray.getString(0);
+                            double quantityTopping = toppingArray.getDouble(1);
+                            int priceTopping = toppingArray.getInt(2);
+                            String imageTopping = toppingArray.getString(3);
+                            flavorToppings.add(new FlavorTopping(nameTopping, priceTopping, quantityTopping, imageTopping));
+                        }
 
-        // Инициализация глобальных переменных
+                        // Создание адаптеров после заполнения списков
+                        adapterIceCream = new FlavorIceCreamAdapter(EmployeeActivity.this, flavorIceCreams);
+                        adapterTopping = new FlavorToppingAdapter(EmployeeActivity.this, flavorToppings);
+                        adapterHorn = new TypeHornAdapter(EmployeeActivity.this, typeHorns);
+
+                        recyclerViewIceCream.setAdapter(adapterIceCream);
+                        recyclerViewTopping.setAdapter(adapterTopping);
+                        recyclerViewHorn.setAdapter(adapterHorn);
+                        Log.d("JSON Response", response);
+
+                    } catch (Exception e) {
+                        Toast.makeText(EmployeeActivity.this, "Помилка обробки JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+                runOnUiThread(() -> {
+                    System.out.println("Error: " + error);
+                });
+            }
+        });
+
         orderList = new ArrayList<>();
         orderAdapter = new IceCreamOrderAdapter(orderList, this);
         recyclerViewCheck.setAdapter(orderAdapter);
@@ -185,6 +268,7 @@ public class EmployeeActivity extends AppCompatActivity {
 
             dialog.show();
         });
+
         //Пошук Зіжок, Морозиво, Топінг
         EditText searchHornEditText = findViewById(R.id.SearchHornEditText);
         EditText searchIceCreamEditText = findViewById(R.id.SearchIceCreamEditText);
@@ -216,6 +300,169 @@ public class EmployeeActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) { }
         });
 
+        Button buttonSales = findViewById(R.id.SalesButton);
+        buttonSales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Поточна дата за замовчуванням
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                String currentDate = dateFormat.format(calendar.getTime());
+
+                // Отримання даних з SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+                String idPoint = sharedPreferences.getString("point", null);
+
+                // Ініціалізація JSON-запиту
+                JSONObject requestJson = new JSONObject();
+                try {
+                    // Додаємо назву функції
+                    requestJson.put("function_name", "get_order");
+
+                    // Створюємо об'єкт param_dict і додаємо параметри: point і date
+                    JSONObject paramDict = new JSONObject();
+                    paramDict.put("point", idPoint);
+                    paramDict.put("date", currentDate);  // Додаємо поточну дату
+
+                    // Додаємо param_dict до основного запиту
+                    requestJson.put("param_dict", paramDict);
+                } catch (JSONException e) {
+                    // Обробка помилки JSON
+                    Toast.makeText(EmployeeActivity.this, "Помилка формування JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Створення діалогового вікна
+                // Створення діалогового вікна
+                AlertDialog.Builder builder = new AlertDialog.Builder(EmployeeActivity.this);
+                builder.setTitle("Дані продажів за " + currentDate); // Початковий заголовок
+
+                // Інфлюємо XML макет
+                final View dialogView = getLayoutInflater().inflate(R.layout.dialog_sales, null);
+                builder.setView(dialogView);
+
+                final TextView salesText = dialogView.findViewById(R.id.salesText);
+                final Button buttonDate = dialogView.findViewById(R.id.buttonDate);
+
+                // Збереження об'єкта діалогу для подальших змін
+                final AlertDialog dialog = builder.create();
+
+                // Відображення діалогу
+                dialog.show();
+
+                HttpClientHelper httpClientHelper = new HttpClientHelper();
+                httpClientHelper.sendPostRequest(getString(R.string.api_url), requestJson, new HttpClientHelper.ResponseCallback() {
+                    @Override
+                    public void onSuccess(String response) {
+                        runOnUiThread(() -> {
+                            try {
+                                // Парсинг JSON-відповіді
+                                JSONObject jsonResponse = new JSONObject(response);
+                                JSONArray salesArray = jsonResponse.getJSONArray("result");
+
+                                // Ініціалізація StringBuilder для збереження повідомлення
+                                StringBuilder message = new StringBuilder();
+                                for (int i = 0; i < salesArray.length(); i++) {
+                                    JSONArray sale = salesArray.getJSONArray(i);
+                                    message.append("Ріжок: ").append(sale.getString(0)).append("\n")
+                                            .append("Смак: ").append(sale.getString(1)).append("\n")
+                                            .append("Добавки: ").append(sale.getString(2)).append("\n")
+                                            .append("Кількість: ").append(sale.getInt(3)).append("\n")
+                                            .append("Ціна: ").append(sale.isNull(4) ? "N/A" : sale.getDouble(4) + "₴").append("\n\n");
+                                }
+
+                                // Оновлюємо текст у TextView
+                                salesText.setText(message.toString());
+                            } catch (Exception e) {
+                                Toast.makeText(EmployeeActivity.this, "Помилка обробки JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(EmployeeActivity.this, "Помилка запиту: " + error, Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                });
+
+                // Обробник для кнопки "Вибрати дату"
+                buttonDate.setOnClickListener(view -> {
+                    // Вибір дати
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(EmployeeActivity.this,
+                            (view1, year, month, dayOfMonth) -> {
+                                // Оновлення обраної дати
+                                calendar.set(year, month, dayOfMonth);
+                                String selectedDate = dateFormat.format(calendar.getTime());
+
+                                // Оновлення заголовка діалогу
+                                dialog.setTitle("Дані продажів за " + selectedDate); // Оновлено заголовок
+
+                                // Оновлення JSON-запиту з новою датою
+                                try {
+                                    JSONObject newRequestJson = new JSONObject();
+                                    newRequestJson.put("function_name", "get_order");
+
+                                    JSONObject newParamDict = new JSONObject();
+                                    newParamDict.put("point", idPoint);
+                                    newParamDict.put("date", selectedDate); // Використовуємо нову дату
+
+                                    newRequestJson.put("param_dict", newParamDict);
+
+                                    // Надсилаємо новий запит
+                                    httpClientHelper.sendPostRequest(getString(R.string.api_url), newRequestJson, new HttpClientHelper.ResponseCallback() {
+                                        @Override
+                                        public void onSuccess(String response) {
+                                            runOnUiThread(() -> {
+                                                try {
+                                                    // Парсинг нової JSON-відповіді
+                                                    JSONObject jsonResponse = new JSONObject(response);
+                                                    JSONArray salesArray = jsonResponse.getJSONArray("result");
+
+                                                    // Якщо масив порожній, вивести повідомлення про відсутність даних
+                                                    if (salesArray.length() == 0) {
+                                                        salesText.setText("Немає даних для вибраної дати.");
+                                                    } else {
+                                                        // Оновлення даних в діалозі
+                                                        StringBuilder updatedMessage = new StringBuilder();
+                                                        for (int i = 0; i < salesArray.length(); i++) {
+                                                            JSONArray sale = salesArray.getJSONArray(i);
+                                                            updatedMessage.append("Ріжок: ").append(sale.getString(0)).append("\n")
+                                                                    .append("Смак: ").append(sale.getString(1)).append("\n")
+                                                                    .append("Добавки: ").append(sale.getString(2)).append("\n")
+                                                                    .append("Кількість: ").append(sale.getInt(3)).append("\n")
+                                                                    .append("Ціна: ").append(sale.isNull(4) ? "N/A" : sale.getDouble(4) + "₴").append("\n\n");
+                                                        }
+
+                                                        // Оновлюємо текст повідомлення в діалозі
+                                                        salesText.setText(updatedMessage.toString());
+                                                    }
+                                                } catch (Exception e) {
+                                                    Toast.makeText(EmployeeActivity.this, "Помилка обробки JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onFailure(String error) {
+                                            runOnUiThread(() -> {
+                                                Toast.makeText(EmployeeActivity.this, "Помилка запиту: " + error, Toast.LENGTH_SHORT).show();
+                                            });
+                                        }
+                                    });
+                                } catch (JSONException e) {
+                                    Toast.makeText(EmployeeActivity.this, "Помилка оновлення JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            },
+                            calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+                    datePickerDialog.show();
+                });
+
+                dialog.show();
+            }
+        });
     }
 
     public void updateTotalSum() {
@@ -255,66 +502,4 @@ public class EmployeeActivity extends AppCompatActivity {
         printBuilder.show();
     }
 
-
-    private List<FlavorIceCream> parseJsonDataIceCream(String jsonDataIceCream) {
-        List<FlavorIceCream> iceCreamList = new ArrayList<>();
-        try {
-            JSONObject jsonObject = new JSONObject(jsonDataIceCream);
-            JSONArray resultArray = jsonObject.getJSONArray("result");
-
-            for (int i = 0; i < resultArray.length(); i++) {
-                JSONArray itemArray = resultArray.getJSONArray(i);
-                String name = itemArray.getString(0);
-                int price = itemArray.getInt(2);
-                double quantity = itemArray.getDouble(1);
-                String uuid = itemArray.getString(3);
-
-                iceCreamList.add(new FlavorIceCream(name, price, quantity, uuid));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return iceCreamList;
-    }
-
-    private List<FlavorTopping> parseJsonDataTopping(String jsonDataTopping) {
-        List<FlavorTopping> toppingList = new ArrayList<>();
-        try {
-            JSONObject jsonObject = new JSONObject(jsonDataTopping);
-            JSONArray resultArray = jsonObject.getJSONArray("result");
-
-            for (int i = 0; i < resultArray.length(); i++) {
-                JSONArray itemArray = resultArray.getJSONArray(i);
-                String name = itemArray.getString(0);
-                int price = itemArray.getInt(2);
-                double quantity = itemArray.getDouble(1);
-                String uuid = itemArray.getString(3);
-
-                toppingList.add(new FlavorTopping(name, price, quantity, uuid));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return toppingList;
-    }
-
-    private List<TypeHorn> parseJsonDataHorn(String jsonDataHorn) {
-        List<TypeHorn> hornList = new ArrayList<>();
-        try {
-            JSONObject jsonObject = new JSONObject(jsonDataHorn);
-            JSONArray resultArray = jsonObject.getJSONArray("result");
-
-            for (int i = 0; i < resultArray.length(); i++) {
-                JSONArray itemArray = resultArray.getJSONArray(i);
-                String name = itemArray.getString(0);
-                int quantity = itemArray.getInt(1);
-                String uuid = itemArray.getString(2);
-
-                hornList.add(new TypeHorn(name, quantity, uuid));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return hornList;
-    }
 }
