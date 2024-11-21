@@ -91,7 +91,9 @@
                 android:id="@+id/iceCreamLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_horizontal"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="15dp"
                 android:orientation="horizontal"
                 android:visibility="visible">
                 <LinearLayout

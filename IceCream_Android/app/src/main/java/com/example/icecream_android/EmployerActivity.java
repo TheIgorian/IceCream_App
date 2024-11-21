@@ -51,7 +51,6 @@ public class EmployerActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
 
-        // Ініціалізація RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerViewHorn = findViewById(R.id.recyclerHorns);
         recyclerViewFlavor = findViewById(R.id.recyclerFlavors);
@@ -418,7 +417,7 @@ public class EmployerActivity extends AppCompatActivity {
                             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                                 // Заполнение данными из hornList
                                 TypeHornViewHolder hornHolder = (TypeHornViewHolder) holder;
-                                TypeHorn horn = hornList.get(position);
+                                TypeHorn horn = typeHorns.get(position);
 
                                 hornHolder.tvName.setText(horn.getName());
                                 hornHolder.tvQuantity.setText(String.valueOf(horn.getQuantity()));
@@ -426,7 +425,7 @@ public class EmployerActivity extends AppCompatActivity {
 
                             @Override
                             public int getItemCount() {
-                                return hornList.size();
+                                return typeHorns.size();
                             }
                         });
 
@@ -455,7 +454,7 @@ public class EmployerActivity extends AppCompatActivity {
                             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                                 // Заполнение данными из flavorList
                                 FlavorIceCreamViewHolder flavorHolder = (FlavorIceCreamViewHolder) holder;
-                                FlavorIceCream flavor = iceCreamList.get(position);
+                                FlavorIceCream flavor = flavorIceCreams.get(position);
 
                                 flavorHolder.tvName.setText(flavor.getName());
                                 flavorHolder.tvPrice.setText(String.valueOf(flavor.getPrice()));
@@ -464,7 +463,7 @@ public class EmployerActivity extends AppCompatActivity {
 
                             @Override
                             public int getItemCount() {
-                                return iceCreamList.size();
+                                return flavorIceCreams.size();
                             }
                         });
 
@@ -494,7 +493,7 @@ public class EmployerActivity extends AppCompatActivity {
                             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                                 // Заполнение данными из toppingList
                                 FlavorToppingViewHolder toppingHolder = (FlavorToppingViewHolder) holder;
-                                FlavorTopping topping = toppingList.get(position);
+                                FlavorTopping topping = flavorToppings.get(position);
 
                                 toppingHolder.tvName.setText(topping.getName());
                                 toppingHolder.tvPrice.setText(String.valueOf(topping.getPrice()));
@@ -503,7 +502,7 @@ public class EmployerActivity extends AppCompatActivity {
 
                             @Override
                             public int getItemCount() {
-                                return toppingList.size();
+                                return flavorToppings.size();
                             }
                         });
 
@@ -522,8 +521,6 @@ public class EmployerActivity extends AppCompatActivity {
                 });
             }
         });
-
-
 
     }
 
