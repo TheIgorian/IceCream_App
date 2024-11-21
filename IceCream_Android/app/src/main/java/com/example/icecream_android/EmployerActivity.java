@@ -43,6 +43,10 @@ public class EmployerActivity extends AppCompatActivity {
     private LinearLayout usersLayout;
     private LinearLayout currentLayout;
 
+    private FlavorIceCreamAdapter adapterIceCream;
+    private FlavorToppingAdapter adapterTopping;
+    private TypeHornAdapter adapterHorn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -339,6 +343,10 @@ public class EmployerActivity extends AppCompatActivity {
 
         });
 
+        flavorIceCreams = new ArrayList<>();
+        flavorToppings = new ArrayList<>();
+        typeHorns = new ArrayList<>();
+
         JSONObject requestJsonIceCreams = new JSONObject();
         try {
             requestJson.put("function_name", "get_all_object_for_company");
@@ -392,121 +400,13 @@ public class EmployerActivity extends AppCompatActivity {
                             flavorToppings.add(new FlavorTopping(nameTopping, priceTopping, quantityTopping, imageTopping));
                         }
 
-                        recyclerViewHorn.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                        adapterIceCream = new FlavorIceCreamAdapter(EmployerActivity.this, flavorIceCreams);
+                        adapterTopping = new FlavorToppingAdapter(EmployerActivity.this, flavorToppings);
+                        adapterHorn = new TypeHornAdapter(EmployerActivity.this, typeHorns);
 
-                            // ViewHolder для одного элемента
-                            class TypeHornViewHolder extends RecyclerView.ViewHolder {
-                                TextView tvName, tvQuantity;
-
-                                public TypeHornViewHolder(View itemView) {
-                                    super(itemView);
-                                    tvName = itemView.findViewById(R.id.tvName);
-                                    tvQuantity = itemView.findViewById(R.id.tvQuantity);
-                                }
-                            }
-
-                            @Override
-                            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                                // Инициализация элемента макета для каждого элемента списка
-                                View itemView = LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.item_horn, parent, false);
-                                return new TypeHornViewHolder(itemView);
-                            }
-
-                            @Override
-                            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                                // Заполнение данными из hornList
-                                TypeHornViewHolder hornHolder = (TypeHornViewHolder) holder;
-                                TypeHorn horn = typeHorns.get(position);
-
-                                hornHolder.tvName.setText(horn.getName());
-                                hornHolder.tvQuantity.setText(String.valueOf(horn.getQuantity()));
-                            }
-
-                            @Override
-                            public int getItemCount() {
-                                return typeHorns.size();
-                            }
-                        });
-
-                        recyclerViewFlavor.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-                            class FlavorIceCreamViewHolder extends RecyclerView.ViewHolder {
-                                TextView tvName, tvPrice, tvQuantity;
-
-                                public FlavorIceCreamViewHolder(View itemView) {
-                                    super(itemView);
-                                    tvName = itemView.findViewById(R.id.tvName);
-                                    tvPrice = itemView.findViewById(R.id.tvPrice);
-                                    tvQuantity = itemView.findViewById(R.id.tvQuantity);
-                                }
-                            }
-
-                            @Override
-                            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                                // Инициализация элемента макета для каждого элемента списка
-                                View itemView = LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.item_flavor, parent, false);
-                                return new FlavorIceCreamViewHolder(itemView);
-                            }
-
-                            @Override
-                            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                                // Заполнение данными из flavorList
-                                FlavorIceCreamViewHolder flavorHolder = (FlavorIceCreamViewHolder) holder;
-                                FlavorIceCream flavor = flavorIceCreams.get(position);
-
-                                flavorHolder.tvName.setText(flavor.getName());
-                                flavorHolder.tvPrice.setText(String.valueOf(flavor.getPrice()));
-                                flavorHolder.tvQuantity.setText(String.valueOf(flavor.getQuantity()));
-                            }
-
-                            @Override
-                            public int getItemCount() {
-                                return flavorIceCreams.size();
-                            }
-                        });
-
-                        recyclerViewTopping.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-                            // ViewHolder для одного элемента
-                            class FlavorToppingViewHolder extends RecyclerView.ViewHolder {
-                                TextView tvName, tvPrice, tvQuantity;
-
-                                public FlavorToppingViewHolder(View itemView) {
-                                    super(itemView);
-                                    tvName = itemView.findViewById(R.id.tvName);
-                                    tvPrice = itemView.findViewById(R.id.tvPrice);
-                                    tvQuantity = itemView.findViewById(R.id.tvQuantity);
-                                }
-                            }
-
-                            @Override
-                            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                                // Инициализация элемента макета для каждого элемента списка
-                                View itemView = LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.item_topping, parent, false);
-                                return new FlavorToppingViewHolder(itemView);
-                            }
-
-                            @Override
-                            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                                // Заполнение данными из toppingList
-                                FlavorToppingViewHolder toppingHolder = (FlavorToppingViewHolder) holder;
-                                FlavorTopping topping = flavorToppings.get(position);
-
-                                toppingHolder.tvName.setText(topping.getName());
-                                toppingHolder.tvPrice.setText(String.valueOf(topping.getPrice()));
-                                toppingHolder.tvQuantity.setText(String.valueOf(topping.getQuantity()));
-                            }
-
-                            @Override
-                            public int getItemCount() {
-                                return flavorToppings.size();
-                            }
-                        });
-
-                        Log.d("JSON Response", response);
+                        recyclerViewFlavor.setAdapter(adapterIceCream);
+                        recyclerViewTopping.setAdapter(adapterTopping);
+                        recyclerViewHorn.setAdapter(adapterHorn);
 
                     } catch (Exception e) {
                         Toast.makeText(EmployerActivity.this, "Помилка обробки JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -522,6 +422,120 @@ public class EmployerActivity extends AppCompatActivity {
             }
         });
 
+        recyclerViewHorn.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewHorn.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+            // ViewHolder для одного элемента
+            class TypeHornViewHolder extends RecyclerView.ViewHolder {
+                TextView tvName, tvQuantity;
+
+                public TypeHornViewHolder(View itemView) {
+                    super(itemView);
+                    tvName = itemView.findViewById(R.id.tvName);
+                    tvQuantity = itemView.findViewById(R.id.tvQuantity);
+                }
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                // Инициализация элемента макета для каждого элемента списка
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_horn, parent, false);
+                return new TypeHornViewHolder(itemView);
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                // Заполнение данными из hornList
+                TypeHornViewHolder hornHolder = (TypeHornViewHolder) holder;
+                TypeHorn horn = typeHorns.get(position);
+
+                hornHolder.tvName.setText(horn.getName());
+                hornHolder.tvQuantity.setText(String.valueOf(horn.getQuantity()));
+            }
+
+            @Override
+            public int getItemCount() {
+                return typeHorns.size();
+            }
+        });
+        recyclerViewFlavor.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewFlavor.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+            class FlavorIceCreamViewHolder extends RecyclerView.ViewHolder {
+                TextView tvName, tvPrice, tvQuantity;
+
+                public FlavorIceCreamViewHolder(View itemView) {
+                    super(itemView);
+                    tvName = itemView.findViewById(R.id.tvName);
+                    tvPrice = itemView.findViewById(R.id.tvPrice);
+                    tvQuantity = itemView.findViewById(R.id.tvQuantity);
+                }
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                // Инициализация элемента макета для каждого элемента списка
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_flavor, parent, false);
+                return new FlavorIceCreamViewHolder(itemView);
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                // Заполнение данными из flavorList
+                FlavorIceCreamViewHolder flavorHolder = (FlavorIceCreamViewHolder) holder;
+                FlavorIceCream flavor = flavorIceCreams.get(position);
+
+                flavorHolder.tvName.setText(flavor.getName());
+                flavorHolder.tvPrice.setText(String.valueOf(flavor.getPrice()));
+                flavorHolder.tvQuantity.setText(String.valueOf(flavor.getQuantity()));
+            }
+
+            @Override
+            public int getItemCount() {
+                return flavorIceCreams.size();
+            }
+        });
+        recyclerViewTopping.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewTopping.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+            // ViewHolder для одного элемента
+            class FlavorToppingViewHolder extends RecyclerView.ViewHolder {
+                TextView tvName, tvPrice, tvQuantity;
+
+                public FlavorToppingViewHolder(View itemView) {
+                    super(itemView);
+                    tvName = itemView.findViewById(R.id.tvName);
+                    tvPrice = itemView.findViewById(R.id.tvPrice);
+                    tvQuantity = itemView.findViewById(R.id.tvQuantity);
+                }
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                // Инициализация элемента макета для каждого элемента списка
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_topping, parent, false);
+                return new FlavorToppingViewHolder(itemView);
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                // Заполнение данными из toppingList
+                FlavorToppingViewHolder toppingHolder = (FlavorToppingViewHolder) holder;
+                FlavorTopping topping = flavorToppings.get(position);
+
+                toppingHolder.tvName.setText(topping.getName());
+                toppingHolder.tvPrice.setText(String.valueOf(topping.getPrice()));
+                toppingHolder.tvQuantity.setText(String.valueOf(topping.getQuantity()));
+            }
+
+            @Override
+            public int getItemCount() {
+                return flavorToppings.size();
+            }
+        });
     }
 
     private void showOnlyLayout(LinearLayout layoutToShow) {
