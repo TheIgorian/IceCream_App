@@ -1,7 +1,7 @@
 package com.example.icecream_android;
 
+import android.adservices.topics.Topic;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -69,15 +69,6 @@ public class EmployeeActivity extends AppCompatActivity {
         flavorToppings = new ArrayList<>();
         typeHorns = new ArrayList<>();
 
-        Button exitButton = findViewById(R.id.ExitButton);
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EmployeeActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
         // URL для запиту
         JSONObject requestJson = new JSONObject();
         try {
@@ -235,6 +226,7 @@ public class EmployeeActivity extends AppCompatActivity {
             // Ініціалізація кнопок
             builder.setView(layout);
             builder.setPositiveButton("Card", (dialog, which) -> {
+                JSONObject requestJsonCard = new JSONObject();
                 JSONObject jsonRequest = OrderToJsonConverter.convertOrdersToJson(idEmployee, idPoint, orderList);
                 httpClientHelper.sendPostRequest(getString(R.string.api_url), jsonRequest, new HttpClientHelper.ResponseCallback() {
                     @Override
@@ -243,23 +235,23 @@ public class EmployeeActivity extends AppCompatActivity {
                             try {
                                 JSONObject jsonResponse = new JSONObject(response);
 
+                                // Проверяем, есть ли ключ "result" и не является ли он null
                                 if (jsonResponse.has("result") && !jsonResponse.isNull("result")) {
-                                    JSONObject result = jsonResponse.getJSONObject("result");
-                                    double price = result.getDouble("all_price");
+                                    double result = jsonResponse.getDouble("result");
 
-                                    if (price > 0) {
+                                    // Если результат больше 0, показываем сообщение об успешной оплате
+                                    if (result > 0) {
                                         showPrintCheckDialog("Оплата карткою завершена");
-                                        adapterHorn.notifyDataSetChanged();
-                                        adapterTopping.notifyDataSetChanged();
-                                        adapterIceCream.notifyDataSetChanged();
-
                                     } else {
+                                        // Если результат 0, показываем ошибку сервера
                                         Toast.makeText(EmployeeActivity.this, "Помилка сервера", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
+                                    // Если ключ отсутствует или значение null, выводим сообщение об ошибке
                                     Toast.makeText(EmployeeActivity.this, "Відсутній результат або він null", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (Exception e) {
+                                // Обработка ошибок, связанных с JSON
                                 Toast.makeText(EmployeeActivity.this, "Помилка обробки JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -287,15 +279,11 @@ public class EmployeeActivity extends AppCompatActivity {
 
                                 // Проверяем, есть ли ключ "result" и не является ли он null
                                 if (jsonResponse.has("result") && !jsonResponse.isNull("result")) {
-                                    JSONObject result = jsonResponse.getJSONObject("result");
-                                    double price = result.getDouble("all_price");
+                                    double result = jsonResponse.getDouble("result");
 
                                     // Если результат больше 0, показываем сообщение об успешной оплате
-                                    if (price > 0) {
+                                    if (result > 0) {
                                         showPrintCheckDialog("Оплата готівкою завершена");
-                                        adapterHorn.notifyDataSetChanged();
-                                        adapterTopping.notifyDataSetChanged();
-                                        adapterIceCream.notifyDataSetChanged();
                                     } else {
                                         // Если результат 0, показываем ошибку сервера
                                         Toast.makeText(EmployeeActivity.this, "Помилка сервера", Toast.LENGTH_SHORT).show();
@@ -359,6 +347,7 @@ public class EmployeeActivity extends AppCompatActivity {
         EditText searchHornEditText = findViewById(R.id.SearchHornEditText);
         EditText searchIceCreamEditText = findViewById(R.id.SearchIceCreamEditText);
         EditText searchToppingEditText = findViewById(R.id.SearchToppingEditText);
+
 
         searchHornEditText.addTextChangedListener(new TextWatcher() {
             @Override
