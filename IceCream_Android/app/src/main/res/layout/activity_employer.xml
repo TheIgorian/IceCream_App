@@ -29,34 +29,19 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingHorizontal="12dp">
+
                 <TextView
+                    android:id="@+id/IceCreamTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="10dp"
                     android:fontFamily="@font/comfortaa_medium"
-                    android:text="Ріжки"
+                    android:text="Морозиво"
                     android:textStyle="bold"
                     android:textSize="30sp"/>
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
-                    android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/comfortaa_medium"
-                    android:textStyle="bold"
-                    android:text="Смаки"
-                    android:textSize="30sp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
-                    android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/comfortaa_medium"
-                    android:text="Топінг"
-                    android:textStyle="bold"
-                    android:textSize="30sp"/>
-                <TextView
+                    android:id="@+id/AnalysticTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
@@ -66,6 +51,7 @@
                     android:textStyle="bold"
                     android:textSize="30sp"/>
                 <TextView
+                    android:id="@+id/UsersTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
@@ -75,6 +61,7 @@
                     android:textStyle="bold"
                     android:textSize="30sp"/>
                 <TextView
+                    android:id="@+id/SignLikeEmployee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
@@ -84,6 +71,7 @@
                     android:textStyle="bold"
                     android:textSize="30sp"/>
                 <TextView
+                    android:id="@+id/Logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="12dp"
@@ -100,180 +88,164 @@
             android:layout_weight="7"
             android:orientation="vertical">
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/tvHornsName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="4dp"
-                    android:text="Flavor Name"
-                    android:textSize="16sp"
-                    android:gravity="start" />
-
-                <TextView
-                    android:id="@+id/tvHornsPrice"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="4dp"
-                    android:text="Price"
-                    android:textSize="16sp"
-                    android:gravity="center" />
-
-                <TextView
-                    android:id="@+id/tvHornsQuantity"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="4dp"
-                    android:text="Quantity"
-                    android:textSize="16sp"
-                    android:gravity="center" />
-
-                <TextView
-                    android:id="@+id/tvHornsStatus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="4dp"
-                    android:text="Status"
-                    android:textSize="16sp"
-                    android:gravity="center" />
-            </LinearLayout>
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <!-- Столбец 1: Название -->
-                <TextView
-                    android:id="@+id/tvFlavorName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="4dp"
-                    android:text="Flavor Name"
-                    android:textSize="16sp"
-                    android:gravity="start" />
-
-                <!-- Столбец 2: Цена -->
-                <TextView
-                    android:id="@+id/tvFlavorPrice"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="4dp"
-                    android:text="Price"
-                    android:textSize="16sp"
-                    android:gravity="center" />
-
-                <!-- Столбец 3: Количество -->
-                <TextView
-                    android:id="@+id/tvFlavorQuantity"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="4dp"
-                    android:text="Quantity"
-                    android:textSize="16sp"
-                    android:gravity="center" />
-
-                <!-- Столбец 4: Состояние -->
-                <TextView
-                    android:id="@+id/tvFlavorStatus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="4dp"
-                    android:text="Status"
-                    android:textSize="16sp"
-                    android:gravity="center" />
-            </LinearLayout>
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <!-- Столбец 1: Название -->
-                <TextView
-                    android:id="@+id/tvToppingName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="4dp"
-                    android:text="Flavor Name"
-                    android:textSize="16sp"
-                    android:gravity="start" />
-
-                <!-- Столбец 2: Цена -->
-                <TextView
-                    android:id="@+id/tvToppingPrice"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="4dp"
-                    android:text="Price"
-                    android:textSize="16sp"
-                    android:gravity="center" />
-
-                <!-- Столбец 3: Количество -->
-                <TextView
-                    android:id="@+id/tvToppingQuantity"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="4dp"
-                    android:text="Quantity"
-                    android:textSize="16sp"
-                    android:gravity="center" />
-
-                <!-- Столбец 4: Состояние -->
-                <TextView
-                    android:id="@+id/tvToppingStatus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="4dp"
-                    android:text="Status"
-                    android:textSize="16sp"
-                    android:gravity="center" />
-            </LinearLayout>
-            <LinearLayout
+                android:id="@+id/iceCreamLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:visibility="gone">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="0.8"
+                    android:padding="8dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tvHeaderHornName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Name"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
 
+                        <TextView
+                            android:id="@+id/tvHeaderHornQuantity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Quantity"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerHorns"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <!-- RecyclerView -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tvHeaderFlavorName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Name"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tvHeaderFlavorPrice"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Price"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tvHeaderFlavorQuantity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Quantity"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerFlavors"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <!-- RecyclerView -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tvHeaderToppingName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Name"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tvHeaderToppingPrice"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Price"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tvHeaderToppingQuantity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Quantity"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerToppings"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/UsersLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
                     <!-- RecyclerView для відображення списку -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="10"
                         android:layout_above="@id/btnAddEmployee" />
 
                     <!-- Кнопка Додати працівника -->
                     <Button
                         android:id="@+id/btnAddEmployee"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:text="Додати працівника"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentEnd="true"
+                        android:layout_weight="1"
                         android:layout_margin="5dp" />
-                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/analysticLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

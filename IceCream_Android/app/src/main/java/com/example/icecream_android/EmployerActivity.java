@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +28,13 @@ import java.util.List;
 
 public class EmployerActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, recyclerViewFlavor, recyclerViewHorn, recyclerViewTopping;
     private List<String[]> employeeList;
+
+    private LinearLayout iceCreamLayout;
+    private LinearLayout analysticLayout;
+    private LinearLayout usersLayout;
+    private LinearLayout currentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,34 @@ public class EmployerActivity extends AppCompatActivity {
 
         // Ініціалізація RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerViewHorn = findViewById(R.id.recyclerHorns);
+        recyclerViewFlavor = findViewById(R.id.recyclerFlavors);
+        recyclerViewTopping = findViewById(R.id.recyclerToppings);
+
+        recyclerViewHorn.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewFlavor.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewTopping.setLayoutManager(new LinearLayoutManager(this));
+
+        iceCreamLayout = findViewById(R.id.iceCreamLayout);
+        analysticLayout = findViewById(R.id.analysticLayout);
+        usersLayout = findViewById(R.id.UsersLayout);
+
+        // Инициализация TextView
+        TextView iceCreamTextView = findViewById(R.id.IceCreamTextView);
+        TextView analysticTextView = findViewById(R.id.AnalysticTextView);
+        TextView usersTextView = findViewById(R.id.UsersTextView);
+        TextView signLikeEmployeeTextView = findViewById(R.id.SignLikeEmployee);
+        TextView logoutTextView = findViewById(R.id.Logout);
+
+        // Установка начального состояния
+        currentLayout = iceCreamLayout; // По умолчанию показываем iceCreamLayout
+        showOnlyLayout(currentLayout);
+
+        // Установка обработчиков кликов
+        iceCreamTextView.setOnClickListener(view -> showOnlyLayout(iceCreamLayout));
+        analysticTextView.setOnClickListener(view -> showOnlyLayout(analysticLayout));
+        usersTextView.setOnClickListener(view -> showOnlyLayout(usersLayout));
+
 
         // Ініціалізація списку працівників
         employeeList = new ArrayList<>();
@@ -114,6 +149,7 @@ public class EmployerActivity extends AppCompatActivity {
             // ViewHolder для одного елемента
             class EmployeeViewHolder extends RecyclerView.ViewHolder {
                 TextView tvFirstName, tvLastName, tvPosition, tvLogin, tvPhone;
+                ImageButton btnDeleteEmployee;
 
                 public EmployeeViewHolder(View itemView) {
                     super(itemView);
@@ -122,6 +158,7 @@ public class EmployerActivity extends AppCompatActivity {
                     tvPosition = itemView.findViewById(R.id.tvPosition);
                     tvLogin = itemView.findViewById(R.id.tvLogin);
                     tvPhone = itemView.findViewById(R.id.tvPhone);
+                    btnDeleteEmployee = itemView.findViewById(R.id.btnDeleteEmployee);
                 }
             }
 
@@ -143,6 +180,61 @@ public class EmployerActivity extends AppCompatActivity {
                 employeeHolder.tvPosition.setText(employee[2]);
                 employeeHolder.tvLogin.setText(employee[3]);
                 employeeHolder.tvPhone.setText(employee[4]);
+
+                employeeHolder.btnDeleteEmployee.setOnClickListener(v -> {
+                    int currentPosition = holder.getAdapterPosition();
+                    if (currentPosition == RecyclerView.NO_POSITION) {
+                        return; // Якщо елемент більше не дійсний
+                    }
+
+                    String login = employeeList.get(currentPosition)[3];
+
+                    // Видалення через HTTP-запит
+                    JSONObject requestJson = new JSONObject();
+                    try {
+                        requestJson.put("function_name", "delete_employee");
+                        requestJson.put("param_dict", new JSONObject().put("login", login));
+                    } catch (JSONException e) {
+                        Toast.makeText(holder.itemView.getContext(), "Помилка формування JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Надсилаємо запит на видалення
+                    HttpClientHelper httpClientHelper = new HttpClientHelper();
+                    httpClientHelper.sendPostRequest(holder.itemView.getContext().getString(R.string.api_url), requestJson, new HttpClientHelper.ResponseCallback() {
+                        @Override
+                        public void onSuccess(String response) {
+                            ((EmployerActivity) holder.itemView.getContext()).runOnUiThread(() -> {
+                                try {
+                                    // Парсинг JSON-відповіді
+                                    JSONObject jsonResponse = new JSONObject(response);
+                                    boolean result = jsonResponse.getBoolean("result");
+
+                                    if (result) {
+                                        // Видалення з локального списку
+                                        employeeList.remove(currentPosition);
+                                        notifyItemRemoved(currentPosition);
+                                        notifyItemRangeChanged(currentPosition, employeeList.size());
+                                        Toast.makeText(holder.itemView.getContext(), "Працівника видалено", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(EmployerActivity.this, "Помилка видалення: даного логіна не існує", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    // Обробка винятку
+                                    Toast.makeText(holder.itemView.getContext(), "Помилка обробки JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+                            ((EmployerActivity) holder.itemView.getContext()).runOnUiThread(() -> {
+                                Toast.makeText(holder.itemView.getContext(), "Помилка видалення: " + error, Toast.LENGTH_SHORT).show();
+                            });
+                        }
+                    });
+                });
             }
 
             @Override
@@ -241,5 +333,206 @@ public class EmployerActivity extends AppCompatActivity {
             dialog.show();
 
         });
+
+        String jsonDataIceCream = "{'result': [['Полуниця', 500.0, 500, 'strawberry'], ['Малина', 500.0, 500, 'raspberry'], ['Лаванда', 500.0, 500, 'lavender'], ['Шоколад', 500.0, 500, 'chocolate'], ['Карамель', 500.0, 500, 'caramel'], ['Ваніль', 450.0, 500, 'vanilla'], ['Кокос', 500.0, 500, 'coconut'], ['Лимон', 500.0, 500, 'lemon'], [\"М'ятя\", 500.0, 500, 'mint']]}";
+        String jsonDataTopping = "{'result': [['Мед', 200.0, 10, 'top_honey'], ['Карамель', 200.0, 15, 'top_caramel_syrup'], ['Вафлі', 200.0, 10, 'top_wafer_crumbs'], ['Зефір', 250.0, 10, 'top_marshmallow'], ['Горішки', 200.0, 10, 'top_nuts'], ['Шоко сироп', 199.79, 15, 'top_chocolate_syrup']]}";
+        String jsonDataHorn = "{'result': [['Звичайний', 210, 'common'], ['Солоний', 210, 'solt'], ['Бумажний', 410, 'paper'], ['Солодкий', 240, 'sugar']]}";
+
+        List<FlavorIceCream> iceCreamList = parseJsonDataIceCream(jsonDataIceCream);
+        List<FlavorTopping> toppingList = parseJsonDataTopping(jsonDataTopping);
+        List<TypeHorn> hornList = parseJsonDataHorn(jsonDataHorn);
+
+        FlavorIceCreamAdapter adapterIceCream = new FlavorIceCreamAdapter(this, iceCreamList);
+        FlavorToppingAdapter adapterTopping = new FlavorToppingAdapter(this, toppingList);
+        TypeHornAdapter adapterHorn = new TypeHornAdapter(this, hornList);
+
+        recyclerViewFlavor.setAdapter(adapterIceCream);
+        recyclerViewTopping.setAdapter(adapterTopping);
+        recyclerViewHorn.setAdapter(adapterHorn);
+
+        recyclerViewHorn.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+            // ViewHolder для одного элемента
+            class TypeHornViewHolder extends RecyclerView.ViewHolder {
+                TextView tvName, tvQuantity;
+
+                public TypeHornViewHolder(View itemView) {
+                    super(itemView);
+                    tvName = itemView.findViewById(R.id.tvName);
+                    tvQuantity = itemView.findViewById(R.id.tvQuantity);
+                }
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                // Инициализация элемента макета для каждого элемента списка
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_horn, parent, false);
+                return new TypeHornViewHolder(itemView);
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                // Заполнение данными из hornList
+                TypeHornViewHolder hornHolder = (TypeHornViewHolder) holder;
+                TypeHorn horn = hornList.get(position);
+
+                hornHolder.tvName.setText(horn.getName());
+                hornHolder.tvQuantity.setText(String.valueOf(horn.getQuantity()));
+            }
+
+            @Override
+            public int getItemCount() {
+                return hornList.size();
+            }
+        });
+
+        recyclerViewFlavor.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+            class FlavorIceCreamViewHolder extends RecyclerView.ViewHolder {
+                TextView tvName, tvPrice, tvQuantity;
+
+                public FlavorIceCreamViewHolder(View itemView) {
+                    super(itemView);
+                    tvName = itemView.findViewById(R.id.tvName);
+                    tvPrice = itemView.findViewById(R.id.tvPrice);
+                    tvQuantity = itemView.findViewById(R.id.tvQuantity);
+                }
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                // Инициализация элемента макета для каждого элемента списка
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_flavor, parent, false);
+                return new FlavorIceCreamViewHolder(itemView);
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                // Заполнение данными из flavorList
+                FlavorIceCreamViewHolder flavorHolder = (FlavorIceCreamViewHolder) holder;
+                FlavorIceCream flavor = iceCreamList.get(position);
+
+                flavorHolder.tvName.setText(flavor.getName());
+                flavorHolder.tvPrice.setText(String.valueOf(flavor.getPrice()));
+                flavorHolder.tvQuantity.setText(String.valueOf(flavor.getQuantity()));
+            }
+
+            @Override
+            public int getItemCount() {
+                return iceCreamList.size();
+            }
+        });
+
+        recyclerViewTopping.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+            // ViewHolder для одного элемента
+            class FlavorToppingViewHolder extends RecyclerView.ViewHolder {
+                TextView tvName, tvPrice, tvQuantity;
+
+                public FlavorToppingViewHolder(View itemView) {
+                    super(itemView);
+                    tvName = itemView.findViewById(R.id.tvName);
+                    tvPrice = itemView.findViewById(R.id.tvPrice);
+                    tvQuantity = itemView.findViewById(R.id.tvQuantity);
+                }
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                // Инициализация элемента макета для каждого элемента списка
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_topping, parent, false);
+                return new FlavorToppingViewHolder(itemView);
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                // Заполнение данными из toppingList
+                FlavorToppingViewHolder toppingHolder = (FlavorToppingViewHolder) holder;
+                FlavorTopping topping = toppingList.get(position);
+
+                toppingHolder.tvName.setText(topping.getName());
+                toppingHolder.tvPrice.setText(String.valueOf(topping.getPrice()));
+                toppingHolder.tvQuantity.setText(String.valueOf(topping.getQuantity()));
+            }
+
+            @Override
+            public int getItemCount() {
+                return toppingList.size();
+            }
+        });
+
+
+    }
+    private List<FlavorIceCream> parseJsonDataIceCream(String jsonDataIceCream) {
+        List<FlavorIceCream> iceCreamList = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(jsonDataIceCream);
+            JSONArray resultArray = jsonObject.getJSONArray("result");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONArray itemArray = resultArray.getJSONArray(i);
+                String name = itemArray.getString(0);
+                int price = itemArray.getInt(2);
+                double quantity = itemArray.getDouble(1);
+                String uuid = itemArray.getString(3);
+
+                iceCreamList.add(new FlavorIceCream(name, price, quantity, uuid));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return iceCreamList;
+    }
+
+    private List<FlavorTopping> parseJsonDataTopping(String jsonDataTopping) {
+        List<FlavorTopping> toppingList = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(jsonDataTopping);
+            JSONArray resultArray = jsonObject.getJSONArray("result");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONArray itemArray = resultArray.getJSONArray(i);
+                String name = itemArray.getString(0);
+                int price = itemArray.getInt(2);
+                double quantity = itemArray.getDouble(1);
+                String uuid = itemArray.getString(3);
+
+                toppingList.add(new FlavorTopping(name, price, quantity, uuid));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return toppingList;
+    }
+
+    private List<TypeHorn> parseJsonDataHorn(String jsonDataHorn) {
+        List<TypeHorn> hornList = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(jsonDataHorn);
+            JSONArray resultArray = jsonObject.getJSONArray("result");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONArray itemArray = resultArray.getJSONArray(i);
+                String name = itemArray.getString(0);
+                int quantity = itemArray.getInt(1);
+                String uuid = itemArray.getString(2);
+
+                hornList.add(new TypeHorn(name, quantity, uuid));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return hornList;
+    }
+
+    private void showOnlyLayout(LinearLayout layoutToShow) {
+        if (currentLayout != null) {
+            currentLayout.setVisibility(View.GONE); // Скрываем текущий активный Layout
+        }
+        layoutToShow.setVisibility(View.VISIBLE); // Показываем выбранный Layout
+        currentLayout = layoutToShow; // Обновляем текущий активный Layout
     }
 }
