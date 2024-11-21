@@ -1,7 +1,9 @@
 package com.example.icecream_android;
 
 import android.adservices.topics.Topic;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -226,7 +228,6 @@ public class EmployeeActivity extends AppCompatActivity {
             // Ініціалізація кнопок
             builder.setView(layout);
             builder.setPositiveButton("Card", (dialog, which) -> {
-                JSONObject requestJsonCard = new JSONObject();
                 JSONObject jsonRequest = OrderToJsonConverter.convertOrdersToJson(idEmployee, idPoint, orderList);
                 httpClientHelper.sendPostRequest(getString(R.string.api_url), jsonRequest, new HttpClientHelper.ResponseCallback() {
                     @Override
@@ -243,6 +244,9 @@ public class EmployeeActivity extends AppCompatActivity {
                                     // Если результат больше 0, показываем сообщение об успешной оплате
                                     if (price > 0) {
                                         showPrintCheckDialog("Оплата карткою завершена");
+                                        Intent intent = new Intent(EmployeeActivity.this, EmployeeActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                        finish();startActivity(intent);
                                     } else {
                                         // Если результат 0, показываем ошибку сервера
                                         Toast.makeText(EmployeeActivity.this, "Помилка сервера", Toast.LENGTH_SHORT).show();
@@ -269,7 +273,6 @@ public class EmployeeActivity extends AppCompatActivity {
 
             AlertDialog dialog = builder.create(); // Створюємо діалог перед встановленням кнопок
             dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cash", (d, which) -> {
-                JSONObject requestJsonCard = new JSONObject();
                 JSONObject jsonRequest = OrderToJsonConverter.convertOrdersToJson(idEmployee, idPoint, orderList);
                 httpClientHelper.sendPostRequest(getString(R.string.api_url), jsonRequest, new HttpClientHelper.ResponseCallback() {
                     @Override
@@ -286,6 +289,9 @@ public class EmployeeActivity extends AppCompatActivity {
                                     // Если результат больше 0, показываем сообщение об успешной оплате
                                     if (price > 0) {
                                         showPrintCheckDialog("Оплата готівкою завершена");
+                                        Intent intent = new Intent(EmployeeActivity.this, EmployeeActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                        finish();startActivity(intent);
                                     } else {
                                         // Если результат 0, показываем ошибку сервера
                                         Toast.makeText(EmployeeActivity.this, "Помилка сервера", Toast.LENGTH_SHORT).show();
@@ -408,8 +414,6 @@ public class EmployeeActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Створення діалогового вікна
-                // Створення діалогового вікна
                 AlertDialog.Builder builder = new AlertDialog.Builder(EmployeeActivity.this);
                 builder.setTitle("Дані продажів за " + currentDate); // Початковий заголовок
 
@@ -539,6 +543,26 @@ public class EmployeeActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        Button exitButton = findViewById(R.id.ExitButton);
+        exitButton.setOnClickListener(v -> {
+            Intent intent = new Intent(EmployeeActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        Button backToAdminButton = findViewById(R.id.BackToAdminButton);
+        boolean fromEmployer = getIntent().getBooleanExtra("fromEmployer", false);
+        if (fromEmployer) {
+            backToAdminButton.setVisibility(View.VISIBLE);
+            backToAdminButton.setOnClickListener(v -> {
+                Intent intent = new Intent(EmployeeActivity.this, EmployerActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
+        else {
+            backToAdminButton.setVisibility(View.GONE);}
     }
 
     public void updateTotalSum() {
@@ -559,6 +583,7 @@ public class EmployeeActivity extends AppCompatActivity {
         sumCheckTextView.setText("Сума чека: " + totalSum + "₴");
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void showPrintCheckDialog(String paymentMessage) {
         AlertDialog.Builder printBuilder = new AlertDialog.Builder(this);
         printBuilder.setTitle(paymentMessage);

@@ -21,55 +21,65 @@
                 android:layout_marginBottom="4dp"
                 android:src="@drawable/logo"
                 android:clipToOutline="true"
-
                 android:outlineProvider="background"
                 android:scaleType="centerCrop"/>
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:paddingHorizontal="12dp">
 
-                <TextView
-                    android:id="@+id/IceCreamTextView"
+                <!-- Основной контейнер с элементами -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
-                    android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/comfortaa_medium"
-                    android:text="Морозиво"
-                    android:textStyle="bold"
-                    android:textSize="30sp"/>
-                <TextView
-                    android:id="@+id/AnalysticTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
-                    android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/comfortaa_medium"
-                    android:text="Аналітика"
-                    android:textStyle="bold"
-                    android:textSize="30sp"/>
-                <TextView
-                    android:id="@+id/UsersTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
-                    android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/comfortaa_medium"
-                    android:text="Користувачі"
-                    android:textStyle="bold"
-                    android:textSize="30sp"/>
-                <TextView
-                    android:id="@+id/SignLikeEmployee"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
-                    android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/comfortaa_medium"
-                    android:text="Увійти як співробітник"
-                    android:textStyle="bold"
-                    android:textSize="30sp"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="60dp"> <!-- Чтобы добавить место для кнопки внизу -->
+
+                    <TextView
+                        android:id="@+id/IceCreamTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="10dp"
+                        android:text="Морозиво"
+                        android:fontFamily="@font/comfortaa_medium"
+                        android:textStyle="bold"
+                        android:textSize="30sp"/>
+
+                    <TextView
+                        android:id="@+id/AnalysticTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="10dp"
+                        android:fontFamily="@font/comfortaa_medium"
+                        android:text="Аналітика"
+                        android:textStyle="bold"
+                        android:textSize="30sp"/>
+
+                    <TextView
+                        android:id="@+id/UsersTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="10dp"
+                        android:fontFamily="@font/comfortaa_medium"
+                        android:text="Користувачі"
+                        android:textStyle="bold"
+                        android:textSize="30sp"/>
+
+                    <TextView
+                        android:id="@+id/SignLikeEmployee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="10dp"
+                        android:fontFamily="@font/comfortaa_medium"
+                        android:text="Увійти як співробітник"
+                        android:textStyle="bold"
+                        android:textSize="30sp"/>
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/Logout"
                     android:layout_width="match_parent"
@@ -79,8 +89,9 @@
                     android:fontFamily="@font/comfortaa_medium"
                     android:text="Вийти"
                     android:textStyle="bold"
-                    android:textSize="30sp"/>
-            </LinearLayout>
+                    android:textSize="30sp"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -94,87 +105,136 @@
                 android:gravity="center_horizontal"
                 android:paddingVertical="15dp"
                 android:paddingHorizontal="15dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="vertical"
+                android:visibility="visible">
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="0.8"
-                    android:padding="8dp">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerHorns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:gravity="center_horizontal"
-                        android:layout_weight="1">
-                        <Button
-                            android:id="@+id/addHorn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Додати ріжок"/>
-                    </LinearLayout>
-
+                        android:layout_height="wrap_content"
+                        android:text="Асортимент"
+                        android:gravity="center"
+                        android:fontFamily="@font/comfortaa_medium"
+                        android:textStyle="bold"
+                        android:textSize="40sp"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:padding="8dp">
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerFlavors"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:gravity="center_horizontal"
-                        android:layout_weight="1">
-                        <Button
-                            android:id="@+id/addFlavor"
-                            android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="0.8"
+                        android:padding="8dp">
+                        <TextView
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Додати морозиво"/>
+                            android:gravity="center"
+                            android:text="Ріжки"
+                            android:fontFamily="@font/comfortaa_medium"
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:padding="5dp"
+                            android:background="@color/ice_cream_cone" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerHorns"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="8"
+                            android:paddingHorizontal="8dp"
+                            android:background="@drawable/recycler_border_ice_cream_cone" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="1">
+                            <Button
+                                android:id="@+id/addHorn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Додати ріжок"/>
+                        </LinearLayout>
+
                     </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:padding="8dp">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerToppings"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:gravity="center_horizontal"
-                        android:layout_weight="1">
-                        <Button
-                            android:id="@+id/addTopping"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Додати топінг"/>
-                    </LinearLayout>
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:padding="8dp">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Смаки"
+                            android:fontFamily="@font/comfortaa_medium"
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:padding="5dp"
+                            android:background="@color/ice_cream_flavor" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerFlavors"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="8"
+                            android:paddingHorizontal="8dp"
+                            android:background="@drawable/recycler_border_ice_cream_flavor"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="1">
+                            <Button
+                                android:id="@+id/addFlavor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Додати морозиво"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Топінг"
+                            android:fontFamily="@font/comfortaa_medium"
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:padding="5dp"
+                            android:background="@color/ice_cream_topping" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerToppings"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="8"
+                            android:paddingHorizontal="8dp"
+                            android:background="@drawable/recycler_border_ice_cream_topping"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="1">
+                            <Button
+                                android:id="@+id/addTopping"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Додати топінг"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -223,51 +283,107 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="visible">
-                <LinearLayout
+                android:padding="20dp"
+                android:visibility="gone">
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:text="Аналітика продаж"
                     android:gravity="center"
-                    android:paddingBottom="16dp">
-
-                    <TextView
-                        android:id="@+id/textViewFlavors"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Вкусы"
-                        android:textSize="16sp"
-                        android:padding="8dp" />
-
-                    <TextView
-                        android:id="@+id/textViewCups"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Рожки"
-                        android:textSize="16sp"
-                        android:padding="8dp"/>
-
-                    <TextView
-                        android:id="@+id/textViewSyrups"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Сиропы"
-                        android:textSize="16sp"
-                        android:padding="8dp" />
-                </LinearLayout>
-
+                    android:fontFamily="@font/comfortaa_medium"
+                    android:textStyle="bold"
+                    android:textSize="40sp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="0.8"
+                        android:padding="8dp">
+
+                        <!-- Заголовок с фоном -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Ріжки"
+                            android:fontFamily="@font/comfortaa_medium"
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:padding="5dp"
+                            android:background="@color/ice_cream_cone" /> <!-- Цвет для Ріжки -->
+
+                        <!-- RecyclerView с границей -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerAnalyticsHorns"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:background="@drawable/recycler_border_ice_cream_cone"/> <!-- Граница для Ріжки -->
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="10dp"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Смаки"
+                            android:fontFamily="@font/comfortaa_medium"
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:padding="5dp"
+                            android:background="@color/ice_cream_flavor" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerAnalyticsFlavors"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:background="@drawable/recycler_border_ice_cream_flavor"/> <!-- Граница для Смаки -->
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:padding="8dp">
+
+                        <!-- Заголовок с фоном -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Топінги"
+                            android:fontFamily="@font/comfortaa_medium"
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:padding="5dp"
+                            android:background="@color/ice_cream_topping" /> <!-- Цвет для Топінги -->
+
+                        <!-- RecyclerView с границей -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerAnalyticsToppings"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:background="@drawable/recycler_border_ice_cream_topping"/> <!-- Граница для Топінги -->
+                    </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 

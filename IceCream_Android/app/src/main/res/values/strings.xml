@@ -5,4 +5,29 @@
         <item>Адмін</item>
         <item>Працівник</item>
     </string-array>
+    <string-array name="horn_types">
+        <item>Звичайний</item>
+        <item>Солоний</item>
+        <item>Солодкий</item>
+        <item>Бумажний</item>
+    </string-array>
+    <string-array name="flavor_types">
+        <item>Полуниця</item>
+        <item>Малина</item>
+        <item>Лаванда</item>
+        <item>Шоколад</item>
+        <item>Карамель</item>
+        <item>Ваніль</item>
+        <item>Кокос</item>
+        <item>Лимон</item>
+        <item>Мята</item>
+    </string-array>
+    <string-array name="topping_types">
+        <item>Мед</item>
+        <item>Карамель</item>
+        <item>Вафлі</item>
+        <item>Зефір</item>
+        <item>Горішки</item>
+        <item>Шоколад</item>
+    </string-array>
 </resources>

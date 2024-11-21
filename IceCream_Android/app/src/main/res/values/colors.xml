@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="ice_cream_cone">#D2B08C</color> <!-- Цвет ріжка -->
+    <color name="ice_cream_cone_border">#B68C5D</color>
+
+    <color name="ice_cream_flavor">#FFB6C1</color> <!-- Цвет вкусов -->
+    <color name="ice_cream_flavor_border">#FF7F7F</color>
+
+    <color name="ice_cream_topping">#A3D9D6</color> <!-- Цвет топпингов -->
+    <color name="ice_cream_topping_border">#74B2B0</color>
 </resources>

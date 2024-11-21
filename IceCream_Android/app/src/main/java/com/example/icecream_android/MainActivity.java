@@ -79,9 +79,11 @@ public class MainActivity extends AppCompatActivity {
                                         if ("Адмін".equals(role)) {
                                             // Якщо роль Адмін, переходимо до AdminActivity
                                             intent = new Intent(MainActivity.this, EmployerActivity.class);
+                                            finish();
                                         } else if ("Працівник".equals(role)) {
                                             // Якщо роль Працівник, переходимо до EmployeeActivity
                                             intent = new Intent(MainActivity.this, EmployeeActivity.class);
+                                            finish();
                                         }
                                         if (intent != null) {
                                             startActivity(intent);
