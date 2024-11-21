@@ -95,145 +95,86 @@
                 android:paddingVertical="15dp"
                 android:paddingHorizontal="15dp"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:layout_weight="0.8"
                     android:padding="8dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/tvHeaderHornName"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Name"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/tvHeaderHornQuantity"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Quantity"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerHorns"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                    <Button
-                        android:id="@+id/addHorn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Додати ріжок"/>
+                        android:layout_height="0dp"
+                        android:layout_weight="8"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+                        <Button
+                            android:id="@+id/addHorn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Додати ріжок"/>
+                    </LinearLayout>
 
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:layout_weight="1"
                     android:padding="8dp">
-                    <!-- RecyclerView -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/tvHeaderFlavorName"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Name"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-                        <TextView
-                            android:id="@+id/tvHeaderFlavorPrice"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Price"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-                        <TextView
-                            android:id="@+id/tvHeaderFlavorQuantity"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Quantity"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-                    </LinearLayout>
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerFlavors"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                    <Button
-                        android:id="@+id/addFlavor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Додати морозиво"/>
+                        android:layout_height="0dp"
+                        android:layout_weight="8"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+                        <Button
+                            android:id="@+id/addFlavor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Додати морозиво"/>
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_weight="1"
                     android:gravity="center"
+                    android:layout_weight="1"
                     android:padding="8dp">
-                    <!-- RecyclerView -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/tvHeaderToppingName"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Name"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-                        <TextView
-                            android:id="@+id/tvHeaderToppingPrice"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Price"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-                        <TextView
-                            android:id="@+id/tvHeaderToppingQuantity"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Quantity"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerToppings"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                    <Button
-                        android:id="@+id/addTopping"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Додати топінг"/>
+                        android:layout_height="0dp"
+                        android:layout_weight="8"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+                        <Button
+                            android:id="@+id/addTopping"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Додати топінг"/>
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -253,15 +194,15 @@
                         android:layout_height="wrap_content"
                         android:text="Список співроітників"/>
                 </LinearLayout>
-                <!-- RecyclerView для відображення списку -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="10"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
                         android:layout_above="@id/btnAddEmployee" />
 
-                    <!-- Кнопка Додати працівника -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -282,7 +223,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -325,8 +266,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-
 
                 </LinearLayout>
             </LinearLayout>

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,9 +61,9 @@ public class EmployerActivity extends AppCompatActivity {
         recyclerViewFlavor = findViewById(R.id.recyclerFlavors);
         recyclerViewTopping = findViewById(R.id.recyclerToppings);
 
-        recyclerViewHorn.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewFlavor.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewTopping.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewHorn.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerViewFlavor.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerViewTopping.setLayoutManager(new GridLayoutManager(this, 2));
 
         iceCreamLayout = findViewById(R.id.iceCreamLayout);
         analysticLayout = findViewById(R.id.analysticLayout);
