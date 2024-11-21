@@ -60,8 +60,6 @@ public class EmployerActivity extends AppCompatActivity {
         TextView iceCreamTextView = findViewById(R.id.IceCreamTextView);
         TextView analysticTextView = findViewById(R.id.AnalysticTextView);
         TextView usersTextView = findViewById(R.id.UsersTextView);
-        TextView signLikeEmployeeTextView = findViewById(R.id.SignLikeEmployee);
-        TextView logoutTextView = findViewById(R.id.Logout);
 
         // Установка начального состояния
         currentLayout = iceCreamLayout; // По умолчанию показываем iceCreamLayout
@@ -71,7 +69,6 @@ public class EmployerActivity extends AppCompatActivity {
         iceCreamTextView.setOnClickListener(view -> showOnlyLayout(iceCreamLayout));
         analysticTextView.setOnClickListener(view -> showOnlyLayout(analysticLayout));
         usersTextView.setOnClickListener(view -> showOnlyLayout(usersLayout));
-
 
         // Ініціалізація списку працівників
         employeeList = new ArrayList<>();
@@ -530,9 +527,9 @@ public class EmployerActivity extends AppCompatActivity {
 
     private void showOnlyLayout(LinearLayout layoutToShow) {
         if (currentLayout != null) {
-            currentLayout.setVisibility(View.GONE); // Скрываем текущий активный Layout
+            currentLayout.setVisibility(View.GONE);
         }
-        layoutToShow.setVisibility(View.VISIBLE); // Показываем выбранный Layout
-        currentLayout = layoutToShow; // Обновляем текущий активный Layout
+        layoutToShow.setVisibility(View.VISIBLE);
+        currentLayout = layoutToShow;
     }
 }

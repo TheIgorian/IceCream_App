@@ -28,7 +28,7 @@
                 android:paddingHorizontal="25dp"
                 android:text="Назад"/>
             <Button
-                android:id="@+id/SellListButton"
+                android:id="@+id/SalesButton"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="20dp"
