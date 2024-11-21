@@ -237,10 +237,11 @@ public class EmployeeActivity extends AppCompatActivity {
 
                                 // Проверяем, есть ли ключ "result" и не является ли он null
                                 if (jsonResponse.has("result") && !jsonResponse.isNull("result")) {
-                                    double result = jsonResponse.getDouble("result");
+                                    JSONObject result = jsonResponse.getJSONObject("result");
+                                    double price = result.getDouble("all_price");
 
                                     // Если результат больше 0, показываем сообщение об успешной оплате
-                                    if (result > 0) {
+                                    if (price > 0) {
                                         showPrintCheckDialog("Оплата карткою завершена");
                                     } else {
                                         // Если результат 0, показываем ошибку сервера
@@ -279,10 +280,11 @@ public class EmployeeActivity extends AppCompatActivity {
 
                                 // Проверяем, есть ли ключ "result" и не является ли он null
                                 if (jsonResponse.has("result") && !jsonResponse.isNull("result")) {
-                                    double result = jsonResponse.getDouble("result");
+                                    JSONObject result = jsonResponse.getJSONObject("result");
+                                    double price = result.getDouble("all_price");
 
                                     // Если результат больше 0, показываем сообщение об успешной оплате
-                                    if (result > 0) {
+                                    if (price > 0) {
                                         showPrintCheckDialog("Оплата готівкою завершена");
                                     } else {
                                         // Если результат 0, показываем ошибку сервера
