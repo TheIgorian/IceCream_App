@@ -100,12 +100,11 @@ public class EmployerActivity extends AppCompatActivity {
         recyclerViewFlavorAnalytics.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             class FlavorIceCreamAnalyticsViewHolder extends RecyclerView.ViewHolder {
-                TextView tvName, tvPrice, tvQuantity;
+                TextView tvName, tvQuantity;
 
                 public FlavorIceCreamAnalyticsViewHolder(View itemView) {
                     super(itemView);
                     tvName = itemView.findViewById(R.id.tvName);
-                    tvPrice = itemView.findViewById(R.id.tvPrice);
                     tvQuantity = itemView.findViewById(R.id.tvQuantity);
                 }
             }
@@ -125,7 +124,6 @@ public class EmployerActivity extends AppCompatActivity {
                 FlavorIceCream flavor = flavorIceCreamsAnalytics.get(position);
 
                 flavorHolder.tvName.setText(flavor.getName());
-                flavorHolder.tvPrice.setText(String.valueOf(flavor.getPrice()));
                 flavorHolder.tvQuantity.setText(String.valueOf(flavor.getQuantity()));
             }
 
@@ -137,12 +135,11 @@ public class EmployerActivity extends AppCompatActivity {
         recyclerViewToppingAnalytics.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             class FlavorToppingAnalyticsViewHolder extends RecyclerView.ViewHolder {
-                TextView tvName, tvPrice, tvQuantity;
+                TextView tvName, tvQuantity;
 
                 public FlavorToppingAnalyticsViewHolder(View itemView) {
                     super(itemView);
                     tvName = itemView.findViewById(R.id.tvName);
-                    tvPrice = itemView.findViewById(R.id.tvPrice);
                     tvQuantity = itemView.findViewById(R.id.tvQuantity);
                 }
             }
@@ -151,7 +148,7 @@ public class EmployerActivity extends AppCompatActivity {
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 // Инициализация элемента макета для каждого элемента списка
                 View itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_flavor, parent, false);
+                        .inflate(R.layout.item_topping, parent, false);
                 return new FlavorToppingAnalyticsViewHolder(itemView);
             }
 
@@ -162,7 +159,6 @@ public class EmployerActivity extends AppCompatActivity {
                 FlavorTopping flavorTopping = flavorToppingsAnalytics.get(position);
 
                 flavorHolder.tvName.setText(flavorTopping.getName());
-                flavorHolder.tvPrice.setText(String.valueOf(flavorTopping.getPrice()));
                 flavorHolder.tvQuantity.setText(String.valueOf(flavorTopping.getQuantity()));
             }
 
