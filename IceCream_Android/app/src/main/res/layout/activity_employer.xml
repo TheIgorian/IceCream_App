@@ -156,7 +156,14 @@
                                 android:id="@+id/addHorn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Додати ріжок"/>
+                                android:text="Додати ріжок"
+                                android:paddingVertical="15dp"
+                                android:paddingHorizontal="20dp"
+                                android:fontFamily="@font/comfortaa_medium"
+                                android:textStyle="bold"
+                                android:backgroundTint="@color/ice_cream_cone_border"
+                                android:textColor="#FFFFFF"
+                                android:textSize="20sp"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -194,7 +201,14 @@
                                 android:id="@+id/addFlavor"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Додати морозиво"/>
+                                android:text="Додати морозиво"
+                                android:paddingVertical="15dp"
+                                android:paddingHorizontal="20dp"
+                                android:fontFamily="@font/comfortaa_medium"
+                                android:textStyle="bold"
+                                android:backgroundTint="@color/ice_cream_flavor_border"
+                                android:textColor="#FFFFFF"
+                                android:textSize="20sp"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -232,7 +246,14 @@
                                 android:id="@+id/addTopping"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Додати топінг"/>
+                                android:text="Додати топінг"
+                                android:paddingVertical="15dp"
+                                android:paddingHorizontal="20dp"
+                                android:fontFamily="@font/comfortaa_medium"
+                                android:textStyle="bold"
+                                android:backgroundTint="@color/ice_cream_topping_border"
+                                android:textColor="#FFFFFF"
+                                android:textSize="20sp"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -243,12 +264,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:paddingHorizontal="40dp"
                 android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:gravity="center">
                     <TextView
                         android:layout_width="match_parent"
@@ -266,7 +288,7 @@
                         android:layout_weight="10"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="10dp"
-                        android:layout_above="@id/btnAddEmployee" />
+                        android:background="@drawable/recycler_border_ice_cream_flavor"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -278,9 +300,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Додати працівника"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_margin="5dp" />
+                            android:layout_margin="5dp"
+                            android:paddingVertical="15dp"
+                            android:paddingHorizontal="20dp"
+                            android:fontFamily="@font/comfortaa_medium"
+                            android:textStyle="bold"
+                            android:backgroundTint="@color/ice_cream_flavor_border"
+                            android:textColor="#FFFFFF"
+                            android:textSize="25sp"/>
                     </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -308,7 +335,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_weight="0.8"
+                        android:layout_weight="1"
                         android:padding="8dp">
 
                         <!-- Заголовок с фоном -->
