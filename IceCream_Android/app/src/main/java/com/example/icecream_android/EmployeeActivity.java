@@ -244,9 +244,6 @@ public class EmployeeActivity extends AppCompatActivity {
                                     // Если результат больше 0, показываем сообщение об успешной оплате
                                     if (price > 0) {
                                         showPrintCheckDialog("Оплата карткою завершена");
-                                        Intent intent = new Intent(EmployeeActivity.this, EmployeeActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                        finish();startActivity(intent);
                                     } else {
                                         // Если результат 0, показываем ошибку сервера
                                         Toast.makeText(EmployeeActivity.this, "Помилка сервера", Toast.LENGTH_SHORT).show();
@@ -289,9 +286,6 @@ public class EmployeeActivity extends AppCompatActivity {
                                     // Если результат больше 0, показываем сообщение об успешной оплате
                                     if (price > 0) {
                                         showPrintCheckDialog("Оплата готівкою завершена");
-                                        Intent intent = new Intent(EmployeeActivity.this, EmployeeActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                        finish();startActivity(intent);
                                     } else {
                                         // Если результат 0, показываем ошибку сервера
                                         Toast.makeText(EmployeeActivity.this, "Помилка сервера", Toast.LENGTH_SHORT).show();
@@ -593,11 +587,17 @@ public class EmployeeActivity extends AppCompatActivity {
             // Імітація друку чеку
             Toast.makeText(this, "Чек друкується...", Toast.LENGTH_SHORT).show();
             clearOrder(); // Очищення замовлення
+            Intent intent = new Intent(EmployeeActivity.this, EmployeeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            finish();startActivity(intent);
         });
 
         printBuilder.setNegativeButton("Ні", (dialog, which) -> {
             Toast.makeText(this, "Оплата завершена без друку чеку", Toast.LENGTH_SHORT).show();
             clearOrder(); // Очищення замовлення
+            Intent intent = new Intent(EmployeeActivity.this, EmployeeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            finish();startActivity(intent);
         });
 
         printBuilder.show();

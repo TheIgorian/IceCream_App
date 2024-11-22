@@ -89,8 +89,6 @@ public class EmployerActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         String idPoint = sharedPreferences.getString("point", null);
 
-        ///Это я тут сделал
-
         recyclerViewHornAnalytics.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewFlavorAnalytics.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewToppingAnalytics.setLayoutManager(new LinearLayoutManager(this));
@@ -280,11 +278,6 @@ public class EmployerActivity extends AppCompatActivity {
                 });
             }
         });
-
-
-
-        ///Это я тут сделал
-
 
         JSONObject requestJson = new JSONObject();
         try {
@@ -525,10 +518,6 @@ public class EmployerActivity extends AppCompatActivity {
         adapterTopping = new FlavorToppingAdapter(this, flavorToppings);
         adapterHorn = new TypeHornAdapter(this, typeHorns);
 
-        recyclerViewFlavor.setAdapter(adapterIceCream);
-        recyclerViewTopping.setAdapter(adapterTopping);
-        recyclerViewHorn.setAdapter(adapterHorn);
-
         JSONObject requestJsonIceCreams = new JSONObject();
         try {
             requestJsonIceCreams.put("function_name", "get_all_object_for_company");
@@ -578,6 +567,14 @@ public class EmployerActivity extends AppCompatActivity {
                             String imageTopping = toppingArray.getString(3);
                             flavorToppings.add(new FlavorTopping(nameTopping, priceTopping, quantityTopping, imageTopping));
                         }
+                        adapterIceCream = new FlavorIceCreamAdapter(EmployerActivity.this, flavorIceCreams);
+                        adapterTopping = new FlavorToppingAdapter(EmployerActivity.this, flavorToppings);
+                        adapterHorn = new TypeHornAdapter(EmployerActivity.this, typeHorns);
+
+                        recyclerViewFlavor.setAdapter(adapterIceCream);
+                        recyclerViewTopping.setAdapter(adapterTopping);
+                        recyclerViewHorn.setAdapter(adapterHorn);
+
                         adapterIceCream.notifyDataSetChanged();
                         adapterTopping.notifyDataSetChanged();
                         adapterHorn.notifyDataSetChanged();
