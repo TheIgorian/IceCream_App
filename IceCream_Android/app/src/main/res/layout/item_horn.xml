@@ -22,6 +22,5 @@
         android:padding="4dp"
         android:text="Quantity"
         android:textSize="16sp" />
-<!--    <ImageButton android:id="@+id/btnDeleteHorn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="0.7" android:adjustViewBounds="true" android:scaleType="fitCenter" android:background="?android:selectableItemBackgroundBorderless" android:src="@drawable/trash" android:layout_marginEnd="8dp"/>-->
 
 </LinearLayout>

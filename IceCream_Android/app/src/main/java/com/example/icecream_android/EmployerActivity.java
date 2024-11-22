@@ -187,7 +187,7 @@ public class EmployerActivity extends AppCompatActivity {
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 // Инициализация элемента макета для каждого элемента списка
                 View itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_flavor, parent, false);
+                        .inflate(R.layout.item_horn, parent, false);
                 return new FlavorHornsAnalyticsViewHolder(itemView);
             }
 
