@@ -35,17 +35,20 @@ async def create_run():
 
     CREATE TABLE IF NOT EXISTS Ice_Cream_Flavor (
         Flavor_ID UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-        Name VARCHAR
+        Name VARCHAR,
+        Photo VARCHAR
     );
 
     CREATE TABLE IF NOT EXISTS Additive (
         Additive_ID UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-        Name VARCHAR
+        Name VARCHAR,
+        Photo VARCHAR
     );
 
     CREATE TABLE IF NOT EXISTS Cone (
         Cone_ID UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-        Type VARCHAR
+        Type VARCHAR,
+        Photo VARCHAR
     );
 
     CREATE TABLE IF NOT EXISTS Orders (
